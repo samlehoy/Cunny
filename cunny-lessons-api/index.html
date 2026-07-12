@@ -1,282 +1,1235 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Cunny Content API for Learning Materials">
-    <title>Cunny APIs Docs</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" href="https://cdn.dribbble.com/users/603800/screenshots/4569474/dribbble-code.gif"
-        type="image/x-icon">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" integrity="sha512-9xKTRVabjVeZmc+GUW8GgSmcREDunMM+Dt/GrzchfN8tkwHizc5RP4Ok/MXFFy5rIjJjzhndFScTceq5e6GvVQ==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
-        integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-        rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="src/assets/style.css">
-    <script src="src/assets/tailwind.config.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cunny Content API Explorer — interactive documentation and course previewer">
+  <title>Cunny Content Explorer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Tokens ────────────────────────────────────────── */
+    :root {
+      --bg:        #0a0a0f;
+      --surface:   rgba(20, 20, 30, 0.6);
+      --border:    rgba(255, 255, 255, 0.06);
+      --border-h:  rgba(255, 255, 255, 0.12);
+      --text-1:    #e4e4e7;
+      --text-2:    #71717a;
+      --text-3:    #3f3f46;
+      --accent:    #10b981;
+      --accent-m:  rgba(16, 185, 129, 0.10);
+      --amber:     #f59e0b;
+      --blue:      #3b82f6;
+      --rose:      #f43f5e;
+      --ease:      cubic-bezier(0.16, 1, 0.3, 1);
+      --sidebar-w: 280px;
+      --font-display: 'Outfit', system-ui, sans-serif;
+      --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+    }
+
+    /* ── Base ──────────────────────────────────────────── */
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-display);
+      background: var(--bg);
+      color: var(--text-1);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    code, pre { font-family: var(--font-mono); }
+
+    /* ── Shimmer skeleton ─────────────────────────────── */
+    @keyframes shimmer {
+      0%   { background-position: -400px 0; }
+      100% { background-position: 400px 0; }
+    }
+    .skeleton {
+      background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.03) 75%);
+      background-size: 800px 100%;
+      animation: shimmer 1.6s ease-in-out infinite;
+      border-radius: 8px;
+    }
+
+    /* ── Staggered fade-in ─────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .stagger-item {
+      opacity: 0;
+      animation: fadeUp 0.4s var(--ease) forwards;
+      animation-delay: calc(var(--i, 0) * 80ms);
+    }
+
+    /* ── Header ───────────────────────────────────────── */
+    .header {
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(10, 10, 15, 0.82);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header-logo {
+      width: 28px; height: 28px;
+      fill: var(--accent);
+    }
+    .header-title {
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+      color: var(--text-1);
+    }
+    .header-sub {
+      font-size: 12px;
+      color: var(--text-2);
+      margin-left: 2px;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* ── Language switcher ─────────────────────────────── */
+    .lang-group {
+      display: flex;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2px;
+    }
+    .lang-btn {
+      padding: 4px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 6px;
+      transition: all 0.25s var(--ease);
+      color: var(--text-2);
+    }
+    .lang-btn.active {
+      background: var(--accent);
+      color: #000;
+    }
+    .lang-btn:not(.active):hover {
+      color: var(--text-1);
+    }
+
+    /* ── Migrate button ───────────────────────────────── */
+    .btn-migrate {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 8px;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      background: var(--accent-m);
+      color: var(--accent);
+      transition: all 0.25s var(--ease);
+    }
+    .btn-migrate:hover {
+      background: rgba(16, 185, 129, 0.18);
+    }
+    .btn-migrate:active { transform: scale(0.98); }
+
+    /* ── Mobile menu button ────────────────────────────── */
+    .mobile-menu-btn {
+      display: none;
+      padding: 6px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .mobile-menu-btn:hover { background: rgba(255,255,255,0.06); }
+    .mobile-menu-btn svg { width: 20px; height: 20px; stroke: var(--text-2); }
+
+    /* ── Shell ─────────────────────────────────────────── */
+    .shell {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+    }
+
+    /* ── Sidebar ──────────────────────────────────────── */
+    .sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      position: sticky;
+      top: 56px;
+      height: calc(100vh - 56px);
+      overflow-y: auto;
+      border-right: 1px solid var(--border);
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--text-3) transparent;
+    }
+    .sidebar-section-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-2);
+      margin-bottom: 10px;
+    }
+    .cat-list { display: flex; flex-direction: column; gap: 2px; }
+    .cat-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      text-align: left;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-2);
+      transition: all 0.25s var(--ease);
+    }
+    .cat-btn:hover {
+      background: rgba(255,255,255,0.04);
+      color: var(--text-1);
+    }
+    .cat-btn.active {
+      background: var(--accent-m);
+      color: var(--accent);
+    }
+    .cat-btn:active { transform: scale(0.98); }
+    .cat-icon {
+      width: 18px; height: 18px;
+      flex-shrink: 0;
+      opacity: 0.7;
+    }
+    .cat-btn.active .cat-icon { opacity: 1; }
+    .cat-chevron {
+      margin-left: auto;
+      width: 12px; height: 12px;
+      opacity: 0.3;
+    }
+
+    /* ── Endpoint links ───────────────────────────────── */
+    .endpoint-list { display: flex; flex-direction: column; gap: 8px; }
+    .endpoint-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+    .method-badge {
+      flex-shrink: 0;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 10px;
+      letter-spacing: 0.02em;
+    }
+    .method-get  { background: var(--accent-m); color: var(--accent); }
+    .method-post { background: rgba(245,158,11,0.1); color: var(--amber); }
+    .method-put  { background: rgba(59,130,246,0.1); color: var(--blue); }
+    .method-del  { background: rgba(244,63,94,0.1); color: var(--rose); }
+    .endpoint-link {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-2);
+      word-break: break-all;
+      transition: color 0.2s;
+    }
+    .endpoint-link:hover { color: var(--text-1); }
+
+    /* ── Main content ─────────────────────────────────── */
+    .main-content {
+      flex: 1;
+      min-width: 0;
+      padding: 32px 40px 80px;
+    }
+    .content-inner {
+      max-width: 960px;
+    }
+
+    /* ── Breadcrumbs ──────────────────────────────────── */
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-2);
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .bc-link {
+      cursor: pointer;
+      transition: color 0.2s;
+      font-weight: 500;
+    }
+    .bc-link:hover { color: var(--text-1); }
+    .bc-active {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .bc-sep {
+      width: 12px; height: 12px;
+      opacity: 0.3;
+    }
+
+    /* ── Cards / Surfaces ─────────────────────────────── */
+    .surface {
+      background: var(--surface);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    /* ── Category header ──────────────────────────────── */
+    .cat-header {
+      padding: 24px 28px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .cat-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .cat-header p {
+      font-size: 14px;
+      color: var(--text-2);
+      margin-top: 4px;
+    }
+
+    /* ── Course cards ─────────────────────────────────── */
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+    .course-card {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s var(--ease);
+      cursor: pointer;
+    }
+    .course-card:hover {
+      border-color: var(--border-h);
+      transform: translateY(-1px);
+    }
+    .course-card:active { transform: scale(0.98); }
+    .course-card-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.04);
+      padding: 8px;
+      object-fit: contain;
+    }
+    .course-card-order {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-2);
+      padding: 2px 8px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 6px;
+    }
+    .course-card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-top: 16px;
+    }
+    .course-card .desc {
+      font-size: 13px;
+      color: var(--text-2);
+      margin-top: 4px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .course-card-footer {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .course-card-footer svg {
+      width: 14px; height: 14px;
+      transition: transform 0.25s var(--ease);
+    }
+    .course-card:hover .course-card-footer svg { transform: translateX(3px); }
+
+    /* ── Journey ──────────────────────────────────────── */
+    .journey-header {
+      padding: 24px 28px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+    }
+    .journey-header .meta {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .journey-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .chapter-block { margin-bottom: 40px; }
+    .chapter-block:last-child { margin-bottom: 0; }
+    .chapter-level {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      background: var(--accent-m);
+      padding: 4px 12px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .chapter-title {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 14px;
+    }
+    .lesson-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .lesson-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      cursor: pointer;
+      transition: all 0.25s var(--ease);
+    }
+    .lesson-row:hover {
+      background: rgba(255,255,255,0.04);
+      border-color: var(--border-h);
+      transform: translateY(-1px);
+    }
+    .lesson-row:active { transform: scale(0.98); }
+    .lesson-row h4 {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .lesson-row .summary {
+      font-size: 12px;
+      color: var(--text-2);
+      margin-top: 2px;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .lesson-status {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .lesson-status.done {
+      background: var(--accent-m);
+      border: 1px solid rgba(16,185,129,0.25);
+    }
+    .lesson-status.pending {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+    }
+    .lesson-status svg { width: 12px; height: 12px; }
+
+    /* ── Lesson content ──────────────────────────────── */
+    .lesson-header {
+      padding: 28px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 12px;
+      transition: opacity 0.2s;
+    }
+    .back-btn:hover { opacity: 0.7; }
+    .back-btn svg { width: 14px; height: 14px; }
+    .lesson-header h2 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .lesson-header p {
+      font-size: 14px;
+      color: var(--text-2);
+      margin-top: 4px;
+    }
+
+    /* ── Content blocks ──────────────────────────────── */
+    .blocks { display: flex; flex-direction: column; gap: 20px; }
+    .block {
+      padding: 24px 28px;
+      border-top: 1px solid var(--border);
+    }
+    .block:first-child { border-top: none; }
+
+    .block-text {
+      font-size: 14px;
+      line-height: 1.75;
+      color: #d4d4d8;
+      white-space: pre-line;
+    }
+
+    .block-image img {
+      border-radius: 10px;
+      max-height: 320px;
+      width: 100%;
+      object-fit: cover;
+      border: 1px solid var(--border);
+    }
+    .block-image .caption {
+      font-size: 12px;
+      color: var(--text-2);
+      margin-top: 8px;
+      font-style: italic;
+    }
+
+    .callout {
+      padding: 16px 20px;
+      border-left: 3px solid;
+      border-radius: 0 8px 8px 0;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #d4d4d8;
+      white-space: pre-line;
+    }
+    .callout.warning {
+      border-color: var(--amber);
+      background: rgba(245, 158, 11, 0.05);
+    }
+    .callout.fun_fact {
+      border-color: var(--accent);
+      background: var(--accent-m);
+    }
+    .callout-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .callout.warning .callout-label { color: var(--amber); }
+    .callout.fun_fact .callout-label { color: var(--accent); }
+
+    /* ── Quiz ─────────────────────────────────────────── */
+    .quiz-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--blue);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .quiz-label svg { width: 14px; height: 14px; }
+    .quiz-question {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .choices { display: flex; flex-direction: column; gap: 8px; }
+    .choice-btn {
+      width: 100%;
+      text-align: left;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.25s var(--ease);
+    }
+    .choice-btn:hover:not(:disabled) {
+      background: rgba(255,255,255,0.05);
+      border-color: var(--border-h);
+    }
+    .choice-btn:active:not(:disabled) { transform: scale(0.98); }
+    .choice-btn:disabled { cursor: default; opacity: 0.5; }
+    .choice-btn.correct {
+      border-color: rgba(16,185,129,0.4);
+      background: var(--accent-m);
+      opacity: 1 !important;
+    }
+    .choice-btn.wrong {
+      border-color: rgba(244,63,94,0.4);
+      background: rgba(244,63,94,0.08);
+      opacity: 1 !important;
+    }
+    .choice-btn.correct-highlight {
+      border-color: rgba(16,185,129,0.2);
+      background: rgba(16,185,129,0.04);
+      opacity: 0.8 !important;
+    }
+    .quiz-details {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .quiz-hint, .quiz-explanation {
+      font-size: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      line-height: 1.6;
+    }
+    .quiz-hint {
+      background: rgba(59,130,246,0.06);
+      border: 1px solid rgba(59,130,246,0.12);
+      color: #93c5fd;
+    }
+    .quiz-explanation {
+      background: var(--accent-m);
+      border: 1px solid rgba(16,185,129,0.12);
+      color: #6ee7b7;
+    }
+
+    /* ── Widget ───────────────────────────────────────── */
+    .widget-block {
+      padding: 32px;
+      border: 1px dashed var(--border-h);
+      border-radius: 12px;
+      text-align: center;
+    }
+    .widget-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .widget-type {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .widget-note {
+      font-size: 12px;
+      color: var(--text-2);
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    /* ── Finish lesson button ─────────────────────────── */
+    .finish-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      font-size: 14px;
+      font-weight: 600;
+      background: var(--accent);
+      color: #000;
+      border-radius: 10px;
+      transition: all 0.25s var(--ease);
+    }
+    .finish-btn:hover { opacity: 0.88; }
+    .finish-btn:active { transform: scale(0.98); }
+    .finish-btn svg { width: 16px; height: 16px; }
+
+    /* ── Empty state ──────────────────────────────────── */
+    .empty {
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--text-2);
+      font-size: 14px;
+    }
+
+    /* ── Error state ──────────────────────────────────── */
+    .error-text {
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--rose);
+      font-size: 14px;
+    }
+
+    /* ── Footer ───────────────────────────────────────── */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 20px 40px;
+      font-size: 12px;
+      color: var(--text-3);
+      text-align: left;
+      margin-top: auto;
+    }
+
+    /* ── Sidebar overlay (mobile) ─────────────────────── */
+    .sidebar-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 49;
+    }
+    .sidebar-overlay.open { display: block; }
+
+    /* ── Utilities ─────────────────────────────────────── */
+    .hidden { display: none !important; }
+
+    /* ── Responsive ───────────────────────────────────── */
+    @media (max-width: 768px) {
+      .header { padding: 0 16px; }
+      .mobile-menu-btn { display: block; }
+      .sidebar {
+        position: fixed;
+        top: 0; left: 0; bottom: 0;
+        z-index: 50;
+        background: #0c0c14;
+        transform: translateX(-100%);
+        transition: transform 0.3s var(--ease);
+        padding-top: 72px;
+      }
+      .sidebar.open { transform: translateX(0); }
+      .main-content { padding: 20px 16px 60px; }
+      .course-grid { grid-template-columns: 1fr; }
+      .header-sub { display: none; }
+      .footer { padding: 16px; text-align: center; }
+    }
+  </style>
 </head>
+<body>
 
-<body class="bg-gray-900 text-gray-100 flex flex-col min-h-screen font-roboto">
+  <!-- ─── Header ──────────────────────────────────── -->
+  <header class="header">
+    <div class="header-left">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+          <path d="M4 6h16M4 12h16M4 18h12"/>
+        </svg>
+      </button>
+      <!-- Logo: simple book/terminal icon -->
+      <svg class="header-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 19.5v-15A2.5 2.5 0 016.5 2H20v20H6.5A2.5 2.5 0 014 19.5z"/>
+        <path d="M9 10l2 2-2 2"/>
+        <path d="M13 14h3"/>
+      </svg>
+      <div>
+        <span class="header-title">Cunny Explorer</span>
+        <span class="header-sub"> — Content API</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="lang-group">
+        <button id="btn-lang-id" class="lang-btn active" onclick="setLanguage('id')">ID</button>
+        <button id="btn-lang-en" class="lang-btn" onclick="setLanguage('en')">EN</button>
+      </div>
+      <a class="btn-migrate" href="{{API_URL}}/api/migrate" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="12" cy="5" rx="9" ry="3"/>
+          <path d="M3 5v14a9 3 0 0018 0V5"/>
+          <path d="M3 12a9 3 0 0018 0"/>
+        </svg>
+        Remigrate DB
+      </a>
+    </div>
+  </header>
 
-    <!-- Drawer for Mobile -->
-    <div id="drawer"
-        class="fixed inset-y-0 left-0 w-64 bg-gray-800 bg-opacity-60 backdrop-blur-lg text-white transform -translate-x-full transition-transform duration-300 z-50 sm:translate-x-0 sm:static sm:w-64 sm:fixed">
-        <div class="p-4">
-            <h2 class="text-2xl font-bold font-funnel italic">API Docs</h2>
+  <!-- ─── Shell ───────────────────────────────────── -->
+  <div class="shell">
+
+    <!-- Overlay for mobile sidebar -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- ─── Sidebar ─────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <!-- Categories -->
+      <div>
+        <div class="sidebar-section-label">Categories</div>
+        <div class="cat-list" id="category-list">
+          <!-- Skeleton -->
+          <div class="skeleton" style="height:34px;margin-bottom:6px"></div>
+          <div class="skeleton" style="height:34px;margin-bottom:6px"></div>
+          <div class="skeleton" style="height:34px"></div>
         </div>
-        <nav class="mt-4">
-            <ul>
-                <li class="mb-2">
-                    <h1 class="px-4 py-2 text-red-600 text-3xl  italic ">
-                        <i class="fa-brands fa-connectdevelop text-xl-3 text-white"></i> <span
-                            class="text-outline font-bold">Cunny</span>
-                    </h1>
-                    <h6 class="px-4 mt-1 mb-2 text-lg"><span class="text-green-600 font-semibold"><i class="fa-solid fa-circle-dot"></i> EndPoint</span></h6>
-                    <div class="ml-10 mt-1 mb-2"><i class="fa-solid fa-globe"></i> <a class="hover:underline hover:opacity-60 hover:text-blue-600 text-xs" href="#" onclick="closeDrawerOnMenuClick()">https://ur-url.com</a></div>
-                    <a href="javascript:void(0)"
-                        class="block px-4 py-2 hover:bg-gray-700 hover:underline hover:text-blue-400 hover:italic"
-                        onclick="scrollToWithOffset('#get-all'); closeDrawerOnMenuClick()"><i
-                            class="fa-solid fa-arrow-right"></i> Get All Learning Materials</a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)"
-                        class="block px-4 py-2 hover:bg-gray-700 hover:underline hover:text-blue-400 hover:italic"
-                        onclick="scrollToWithOffset('#get-by-id'); closeDrawerOnMenuClick()"><i
-                            class="fa-solid fa-arrow-right"></i> Get Learning Material by ID</a>
-                            <h6 class="px-4 mt-1 mb-2 text-lg"><span class="text-green-600 font-semibold"><i class="fa-solid fa-circle-dot"></i> EndPoint</span></h6>
-                            <div class="ml-10 mt-1 mb-2"><i class="fa-solid fa-globe"></i> <a class="hover:underline hover:opacity-60 hover:text-blue-600 text-xs" href="#" onclick="closeDrawerOnMenuClick()">https://ur-url.com</a></div>
-                    <a href="javascript:void(0)"
-                            class="block px-4 py-2 hover:bg-gray-700 hover:underline hover:text-blue-400 hover:italic"
-                            onclick="scrollToWithOffset('#prediction'); closeDrawerOnMenuClick()"><i
-                                class="fa-solid fa-arrow-right"></i> Prediction</a>
-                </li>
-            </ul>
+      </div>
+
+      <!-- API Endpoints -->
+      <div>
+        <div class="sidebar-section-label">API Endpoints</div>
+        <div class="endpoint-list">
+          <div class="endpoint-row">
+            <span class="method-badge method-get">GET</span>
+            <a id="ep-categories" class="endpoint-link" href="{{API_URL}}/api/categories" target="_blank">/api/categories</a>
+          </div>
+          <div class="endpoint-row">
+            <span class="method-badge method-get">GET</span>
+            <a id="ep-courses" class="endpoint-link" href="{{API_URL}}/api/categories/ai/courses" target="_blank">/api/categories/:slug/courses</a>
+          </div>
+          <div class="endpoint-row">
+            <span class="method-badge method-get">GET</span>
+            <a id="ep-journey" class="endpoint-link" href="{{API_URL}}/api/courses/intro-to-ai/journey" target="_blank">/api/courses/:slug/journey</a>
+          </div>
+          <div class="endpoint-row">
+            <span class="method-badge method-get">GET</span>
+            <a id="ep-lesson" class="endpoint-link" href="{{API_URL}}/api/lessons/what-is-ai" target="_blank">/api/lessons/:slug</a>
+          </div>
+          <div class="endpoint-row">
+            <span class="method-badge method-get">GET</span>
+            <a class="endpoint-link" href="{{API_URL}}/api/learning-materials" target="_blank">/api/learning-materials</a>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ─── Main ──────────────────────────────────── -->
+    <main class="main-content">
+      <div class="content-inner">
+
+        <!-- Breadcrumbs -->
+        <nav class="breadcrumbs" id="breadcrumbs">
+          <span class="bc-link bc-active" onclick="goHome()">Home</span>
         </nav>
 
-    </div>
+        <!-- Dynamic content -->
+        <div id="dynamic-content"></div>
 
-    <!-- Main Container -->
-    <div class="flex-grow sm:ml-64">
-        <!-- Header -->
-        <header
-            class="fixed top-0 left-0 right-0 bg-gray-800 bg-opacity-60 backdrop-blur-lg text-white shadow px-4 sm:px-8 py-4 z-10 flex items-center justify-between sm:justify-start sm:ml-64">
-            <!-- Mobile Menu Button -->
-            <button
-                class="block sm:hidden p-2 rounded text-blue-400 hover:bg-gray-700 focus:outline-none focus:ring focus:ring-blue-500"
-                onclick="toggleDrawer()">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
-            </button>
+      </div>
+    </main>
+  </div>
 
-            <div class="ml-4 sm:ml-0 flex items-center">
-                <!-- Logo with Animation -->
-                <img src="https://cdn.dribbble.com/users/603800/screenshots/4569474/dribbble-code.gif" alt="Logo"
-                    class="w-10 h-10 logo-animate mr-4" />
-                <div class="flex flex-col">
-                    <!-- <h1 class="text-2xl sm:text-4xl font-bold text-red-400 font-funnel">Cunny Contents API</h1> -->
-                    <h1 class="text-2xl sm:text-4xl font-bold font-funnel color-change text-outline">
-                        Cunny APIs
-                    </h1>
-                    <!-- New Paragraph Below the Logo and Heading -->
-                    <p class="text-gray-400 text-sm sm:text-lg font-roboto italic">
-                        Cunny Learning Materials & Prediction API
-                    </p>
-                </div>
+  <!-- ─── Footer ──────────────────────────────────── -->
+  <footer class="footer">
+    Cunny Content API Explorer &copy; 2026
+  </footer>
+
+  <!-- ─── JS ──────────────────────────────────────── -->
+  <script>
+    const baseUrl = '{{API_URL}}';
+    let currentLanguage = 'id';
+    let categories = [];
+    let selectedCategory = null;
+    let selectedCourse = null;
+    let selectedLesson = null;
+
+    // ── SVG icon library ────────────────────────────
+    const ICONS = {
+      ai: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>`,
+      coding: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+      data: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>`,
+      cnn: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M2 12c2.5-5 6.5-8 10-8s7.5 3 10 8c-2.5 5-6.5 8-10 8s-7.5-3-10-8z"/></svg>`,
+      default: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>`,
+      chevron: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`,
+      check: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+      play: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>`,
+      arrowLeft: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>`,
+      arrowRight: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`,
+      warning: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+      info: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`,
+      question: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+      widget: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg>`,
+      x: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
+    };
+
+    function getCategoryIcon(slug) {
+      if (slug === 'ai') return ICONS.ai;
+      if (slug === 'coding' || slug === 'programming') return ICONS.coding;
+      if (slug === 'data') return ICONS.data;
+      if (slug === 'cnn' || slug === 'computer-vision') return ICONS.cnn;
+      return ICONS.default;
+    }
+
+    // ── Sidebar toggle (mobile) ────────────────────
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+      document.getElementById('sidebar-overlay').classList.toggle('open');
+    }
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebar-overlay').classList.remove('open');
+    }
+
+    // ── Language ────────────────────────────────────
+    function setLanguage(lang) {
+      currentLanguage = lang;
+      document.getElementById('btn-lang-id').classList.toggle('active', lang === 'id');
+      document.getElementById('btn-lang-en').classList.toggle('active', lang === 'en');
+      loadCategories();
+      if (selectedLesson) loadLesson(selectedLesson.slug);
+      else if (selectedCourse) loadCourseJourney(selectedCourse.slug);
+      else if (selectedCategory) loadCategoryCourses(selectedCategory.slug);
+    }
+
+    // ── Breadcrumbs ────────────────────────────────
+    function updateBreadcrumbs() {
+      const bc = document.getElementById('breadcrumbs');
+      let html = `<span class="bc-link ${!selectedCategory ? 'bc-active' : ''}" onclick="goHome()">Home</span>`;
+      if (selectedCategory) {
+        html += `<svg class="bc-sep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>`;
+        html += `<span class="bc-link ${!selectedCourse ? 'bc-active' : ''}" onclick="loadCategoryCourses('${selectedCategory.slug}')">${selectedCategory.name}</span>`;
+      }
+      if (selectedCourse) {
+        html += `<svg class="bc-sep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>`;
+        html += `<span class="bc-link ${!selectedLesson ? 'bc-active' : ''}" onclick="loadCourseJourney('${selectedCourse.slug}')">${selectedCourse.title || selectedCourse.slug}</span>`;
+      }
+      if (selectedLesson) {
+        html += `<svg class="bc-sep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>`;
+        html += `<span class="bc-active">${selectedLesson.title || selectedLesson.slug}</span>`;
+      }
+      bc.innerHTML = html;
+    }
+
+    // ── Init ────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => { loadCategories(); });
+
+    // ── Load categories ─────────────────────────────
+    async function loadCategories() {
+      try {
+        const res = await fetch(`${baseUrl}/api/categories?language=${currentLanguage}`);
+        const data = await res.json();
+        if (data.categories) {
+          categories = data.categories;
+          renderCategorySidebar();
+          if (!selectedCategory && categories.length > 0) {
+            loadCategoryCourses(categories[0].slug);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load categories', err);
+      }
+    }
+
+    // ── Render sidebar categories ──────────────────
+    function renderCategorySidebar() {
+      const c = document.getElementById('category-list');
+      c.innerHTML = '';
+      categories.forEach((cat, i) => {
+        const active = selectedCategory && selectedCategory.slug === cat.slug;
+        const btn = document.createElement('button');
+        btn.className = `cat-btn${active ? ' active' : ''}`;
+        btn.style.setProperty('--i', i);
+        btn.classList.add('stagger-item');
+        btn.innerHTML = `
+          <span class="cat-icon">${getCategoryIcon(cat.slug)}</span>
+          <span>${cat.name}</span>
+          <span class="cat-chevron">${ICONS.chevron}</span>
+        `;
+        btn.onclick = () => { closeSidebar(); loadCategoryCourses(cat.slug); };
+        c.appendChild(btn);
+      });
+    }
+
+    // ── Go Home ─────────────────────────────────────
+    function goHome() {
+      selectedCourse = null;
+      selectedLesson = null;
+      updateBreadcrumbs();
+      if (selectedCategory) loadCategoryCourses(selectedCategory.slug);
+    }
+
+    // ── Load category courses ──────────────────────
+    async function loadCategoryCourses(catSlug) {
+      selectedCategory = categories.find(c => c.slug === catSlug);
+      selectedCourse = null;
+      selectedLesson = null;
+      updateBreadcrumbs();
+      renderCategorySidebar();
+
+      // Update endpoint links
+      document.getElementById('ep-courses').href = `${baseUrl}/api/categories/${catSlug}/courses?language=${currentLanguage}`;
+
+      const ws = document.getElementById('dynamic-content');
+      ws.innerHTML = `<div style="display:flex;flex-direction:column;gap:16px">
+        <div class="skeleton" style="height:80px"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="skeleton" style="height:180px"></div>
+          <div class="skeleton" style="height:180px"></div>
+        </div>
+      </div>`;
+
+      try {
+        const res = await fetch(`${baseUrl}/api/categories/${catSlug}/courses?language=${currentLanguage}`);
+        const data = await res.json();
+
+        if (data.courses) {
+          let html = `<div class="surface cat-header">
+            <h2>${data.category}</h2>
+            <p>${data.description || ''}</p>
+          </div>`;
+
+          if (data.courses.length === 0) {
+            html += `<div class="empty">No courses in this category yet.</div>`;
+          } else {
+            html += `<div class="course-grid">`;
+            data.courses.forEach((course, i) => {
+              html += `
+                <div class="surface course-card stagger-item" style="--i:${i}" onclick="loadCourseJourney('${course.slug}')">
+                  <div>
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <img class="course-card-icon" src="${course.icon_url || 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;%2371717a&quot; stroke-width=&quot;1.5&quot;><rect x=&quot;3&quot; y=&quot;3&quot; width=&quot;18&quot; height=&quot;18&quot; rx=&quot;2&quot;/></svg>')}" alt="">
+                      <span class="course-card-order">#${course.sorting_order}</span>
+                    </div>
+                    <h3>${course.title}</h3>
+                    <p class="desc">${course.description || ''}</p>
+                  </div>
+                  <div class="course-card-footer">
+                    <span>View journey</span>
+                    ${ICONS.arrowRight}
+                  </div>
+                </div>`;
+            });
+            html += `</div>`;
+          }
+          ws.innerHTML = html;
+        }
+      } catch (err) {
+        ws.innerHTML = `<div class="error-text">Failed to load courses: ${err.message}</div>`;
+      }
+    }
+
+    // ── Load course journey ────────────────────────
+    async function loadCourseJourney(courseSlug) {
+      selectedCourse = { slug: courseSlug };
+      selectedLesson = null;
+
+      // Update endpoint link
+      document.getElementById('ep-journey').href = `${baseUrl}/api/courses/${courseSlug}/journey?language=${currentLanguage}`;
+
+      const ws = document.getElementById('dynamic-content');
+      ws.innerHTML = `<div style="display:flex;flex-direction:column;gap:16px">
+        <div class="skeleton" style="height:80px"></div>
+        <div class="skeleton" style="height:200px"></div>
+      </div>`;
+
+      try {
+        const res = await fetch(`${baseUrl}/api/courses/${courseSlug}/journey?language=${currentLanguage}`);
+        const data = await res.json();
+
+        if (data.chapters) {
+          selectedCourse = { slug: courseSlug, title: data.course_title };
+          updateBreadcrumbs();
+
+          let html = `<div class="surface journey-header">
+            <div class="meta">
+              <span>Course Journey</span>
+              <span>·</span>
+              <span>${data.chapters.length} levels</span>
             </div>
-        </header>
+            <h2>${data.course_title}</h2>
+          </div>`;
 
-        <!-- Content -->
-        <main class="mt-20 sm:mt-24 p-4 sm:p-8">
-            <!-- API 1: Get All Learning Materials -->
-            <section id="get-all" class="mb-28">
-                <h2 class="text-2xl font-semibold text-blue-400 font-funnel"><i class="fa-regular fa-star"></i> Get All
-                    Learning Materials</h2>
-                <p class="text-gray-300 mb-4 font-roboto">
-                    This API endpoint retrieves all learning materials from the database.
-                </p>
+          if (data.chapters.length === 0) {
+            html += `<div class="empty">No chapters added to this journey yet.</div>`;
+          } else {
+            data.chapters.forEach((ch, ci) => {
+              html += `<div class="chapter-block stagger-item" style="--i:${ci}">
+                <div class="chapter-level">Level ${ch.level}</div>
+                <h3 class="chapter-title">${ch.title}</h3>
+                <div class="lesson-list">`;
 
-                <div class="bg-gray-800 bg-opacity-60 backdrop-blur-lg p-6 rounded shadow">
-                    <h3 class="text-xl font-semibold text-gray-100 font-roboto"><i class="fa-regular fa-circle-dot"></i>
-                        Request</h3>
-                    <p class="text-gray-400 font-semibold">Method: <span
-                            class="text-blue-400 text-lg font-bold">GET</span></p>
-                    <p class="text-gray-400 font-semibold">URL: <span
-                            class="text-blue-400 text-lg font-bold">/learning-materials</span></p>
+              if (ch.lessons.length === 0) {
+                html += `<div style="padding:12px 0;font-size:13px;color:var(--text-2);font-style:italic">No lessons in this level.</div>`;
+              } else {
+                ch.lessons.forEach((les, li) => {
+                  const statusClass = les.done ? 'done' : 'pending';
+                  const statusIcon = les.done
+                    ? `<span style="color:var(--accent)">${ICONS.check}</span>`
+                    : `<span style="color:var(--text-3)">${ICONS.play}</span>`;
+                  html += `
+                    <div class="lesson-row stagger-item" style="--i:${ci * 4 + li}" onclick="loadLesson('${les.slug}')">
+                      <div>
+                        <h4>${les.title}</h4>
+                        ${les.summary ? `<p class="summary">${les.summary}</p>` : ''}
+                      </div>
+                      <div class="lesson-status ${statusClass}">${statusIcon}</div>
+                    </div>`;
+                });
+              }
+              html += `</div></div>`;
+            });
+          }
+          ws.innerHTML = html;
+        }
+      } catch (err) {
+        ws.innerHTML = `<div class="error-text">Failed to load journey: ${err.message}</div>`;
+      }
+    }
 
-                    <h3 class="text-xl font-semibold text-gray-100 mt-4 mb-2 font-roboto"><i
-                            class="fa-regular fa-circle-dot"></i> Response Example</h3>
-                    <pre class="bg-gray-900 p-4 rounded overflow-x-auto text-gray-200 font-roboto">
-                        <code>
-                            {
-                                <span class="text-blue-400">"error"</span> : <span class="text-red-400">false</span>,
-                                <span class="text-blue-400">"message"</span> : <span class="text-red-400">"Learning material retrieved successfully."</span>,
-                                <span class="text-blue-400">"learningMaterials"</span> : {
-                                    <span class="text-blue-400">"id"</span> : <span class="text-red-400">1</span>,
-                                    <span class="text-blue-400">"title"</span> : <span class="text-red-400">"Learning Materials Number 1"</span>,
-                                    <span class="text-blue-400">"description"</span> : <span class="text-red-400">"Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum beatae, vitae dolore nobis quidem officiis fuga nostrum soluta odit provident consequuntur ab aliquam, at accusamus aperiam nam? Fuga, officiis ducimus!"</span>, 
-                                    <span class="text-blue-400">"sub_materials"</span> : <span class="text-red-400">[
-                                        [
-                                            "Chapter 1: Example"
-                                        ],
-                                        [
-                                            "Chapter 2: Example"
-                                        ],
-                                        [
-                                            "Chapter 3: Example"
-                                        ]
-                                    ]</span>,
-                                    <span class="text-blue-400">"sub_body_materials"</span> : <span class="text-red-400">[
-                                        [
-                                            "Google Colab adalah platform berbasis cloud yang memungkinkan pengguna untuk menulis dan menjalankan kode Python dalam bentuk notebook Jupyter. Dengan akses gratis ke GPU dan TPU, platform ini mempercepat proses pelatihan model deep learning. Beberapa kelebihannya termasuk gratis, berbasis cloud, mudah dibagikan, dan terintegrasi dengan Google Drive. Cara menggunakannya cukup sederhana, yaitu dengan mengunjungi Google Colab, memulai notebook baru atau membuka notebook yang sudah ada, kemudian memilih "Runtime" dan "Change runtime type" untuk mengaktifkan GPU atau TPU, dan mulai menulis kode Python."
-                                        ],
-                                        [
-                                            "Sementara itu, Visual Studio Code (VSCode) adalah editor teks untuk pengembangan perangkat lunak yang menawarkan berbagai fitur canggih, seperti integrasi dengan Git, debugging, dan plugin untuk Python serta Jupyter notebooks. Kelebihan VSCode antara lain ringan, cepat, mendukung plugin Python Extension, Jupyter, dan TensorFlow Snippets, serta menyediakan fitur debugging dan integrasi dengan Git. Untuk menggunakan VSCode, pertama-tama unduh dan instal dari situs resmi, kemudian pasang Python extension dan Jupyter extension, buka file Python atau Jupyter Notebook, dan mulai menulis kode Python."
-                                        ],
-                                        [
-                                            "Matplotlib adalah library visualisasi data 2D di Python yang sangat fleksibel. Library ini digunakan untuk membuat berbagai jenis grafik dan plot, dari yang sederhana hingga yang kompleks. Kelebihannya terletak pada fleksibilitasnya, memungkinkan pengguna untuk menyesuaikan grafik sesuai kebutuhan. Contoh penggunaannya termasuk membuat plot dan grafik untuk memahami distribusi data.",
-                                            "Seaborn adalah library visualisasi yang dibangun di atas Matplotlib dan menyediakan antarmuka tingkat tinggi untuk membuat grafik statistik. Kelebihan Seaborn adalah lebih mudah digunakan dibandingkan Matplotlib dan menyediakan grafik yang lebih informatif dengan visual yang lebih menarik. Contoh penggunaannya termasuk visualisasi distribusi data dan hubungan antar variabel.",
-                                            "Plotly adalah library visualisasi yang mendukung pembuatan grafik interaktif. Kelebihan utama Plotly adalah kemampuannya untuk menghasilkan grafik yang interaktif dan dapat digunakan di web. Contoh penggunaannya meliputi pembuatan dashboard interaktif dan visualisasi hasil eksperimen, yang memungkinkan interaksi langsung dengan data."
-                                        ] 
-                                    ]</span>,
-                                    <span class="text-blue-400">"learning_image_path"</span> : <span class="text-red-400">"https://storage.googleapis.com/my-bucket-name/images/nodejs-intro.jpg"</span>,
-                                    <span class="text-blue-400">"created_at"</span> : <span class="text-red-400">"2024-01-01T00:00:00Z"</span>,
-                                    <span class="text-blue-400">"updated_at"</span> : <span class="text-red-400">"2024-01-01T00:00:00Z"</span>
-                                }
-                            }
-                        </code>
-                    </pre>
+    // ── Load lesson ────────────────────────────────
+    async function loadLesson(lessonSlug) {
+      selectedLesson = { slug: lessonSlug };
 
+      // Update endpoint link
+      document.getElementById('ep-lesson').href = `${baseUrl}/api/lessons/${lessonSlug}?language=${currentLanguage}`;
+
+      const ws = document.getElementById('dynamic-content');
+      ws.innerHTML = `<div style="display:flex;flex-direction:column;gap:12px">
+        <div class="skeleton" style="height:60px"></div>
+        <div class="skeleton" style="height:160px"></div>
+        <div class="skeleton" style="height:160px"></div>
+      </div>`;
+
+      try {
+        const res = await fetch(`${baseUrl}/api/lessons/${lessonSlug}?language=${currentLanguage}`);
+        const data = await res.json();
+
+        if (data.lesson) {
+          const lesson = data.lesson;
+          selectedLesson = { slug: lessonSlug, title: lesson.title };
+          updateBreadcrumbs();
+
+          let html = `<div class="surface lesson-header">
+            <button class="back-btn" onclick="loadCourseJourney('${lesson.course_slug}')">
+              ${ICONS.arrowLeft}
+              <span>Back to journey</span>
+            </button>
+            <h2>${lesson.title}</h2>
+            ${lesson.summary ? `<p>${lesson.summary}</p>` : ''}
+          </div>`;
+
+          html += `<div class="blocks">`;
+          const blocks = lesson.blocks || [];
+
+          blocks.forEach((block, idx) => {
+            html += `<div class="block stagger-item" style="--i:${idx}">`;
+
+            if (block.type === 'text') {
+              html += `<div class="block-text">${block.markdown}</div>`;
+            } else if (block.type === 'image') {
+              html += `<div class="block-image">
+                <img src="${block.image_url}" alt="Lesson image">
+                ${block.caption ? `<p class="caption">${block.caption}</p>` : ''}
+              </div>`;
+            } else if (block.type === 'callout') {
+              const style = block.style === 'warning' ? 'warning' : 'fun_fact';
+              const icon = style === 'warning' ? ICONS.warning : ICONS.info;
+              const label = style === 'warning' ? 'Warning' : 'Fun Fact';
+              html += `<div class="callout ${style}">
+                <div class="callout-label">${icon} ${label}</div>
+                <div>${block.markdown}</div>
+              </div>`;
+            } else if (block.type === 'quiz') {
+              html += `<div>
+                <div class="quiz-label">${ICONS.question} Knowledge Check</div>
+                <div class="quiz-question">${block.question}</div>
+                <div class="choices" id="choices-${idx}">`;
+              block.choices.forEach((choice, ci) => {
+                html += `<button class="choice-btn" onclick="checkQuizAnswer(this,${block.answer_index},${ci},${idx})">
+                  <span>${choice}</span>
+                  <span class="choice-icon"></span>
+                </button>`;
+              });
+              html += `</div>
+                <div class="quiz-details hidden" id="quiz-details-${idx}">
+                  ${block.hint ? `<div class="quiz-hint"><strong>Hint:</strong> ${block.hint}</div>` : ''}
+                  <div class="quiz-explanation hidden" id="quiz-expl-${idx}"><strong>Explanation:</strong> ${block.explanation || ''}</div>
                 </div>
-            </section>
+              </div>`;
+            } else if (block.type === 'widget') {
+              html += `<div class="widget-block">
+                <div class="widget-label">${ICONS.widget} Interactive Widget</div>
+                <div class="widget-type">${(block.widget_type || '').replace(/_/g, ' ')}</div>
+                <p class="widget-note">This widget is interactive on the Android client app.</p>
+              </div>`;
+            }
 
-            <!-- API 2: Get Learning Material by ID -->
-            <section id="get-by-id" class="mb-28">
-                <h2 class="text-2xl font-semibold text-blue-400 font-funnel"><i class="fa-regular fa-star"></i> Get
-                    Learning Material by ID</h2>
-                <p class="text-gray-300 mb-4 font-roboto">
-                    This API endpoint retrieves a learning material by its unique ID.
-                </p>
+            html += `</div>`;
+          });
 
-                <div class="bg-gray-800 bg-opacity-60 backdrop-blur-lg p-6 rounded shadow">
-                    <h3 class="text-xl font-semibold text-gray-100 font-roboto"><i class="fa-regular fa-circle-dot"></i>
-                        Request</h3>
-                    <p class="text-gray-400 font-semibold">Method : <span
-                            class="text-blue-400 text-lg font-bold">GET</span></p>
-                    <p class="text-gray-400 font-semibold">URL : <span
-                            class="text-blue-400 text-lg font-bold">/learning-materials/{id}</span></p>
-                    <p class="text-gray-400 font-semibold"># Replace <code>{id}</code> with the ID of the learning
-                        material you want to retrieve.</p>
+          html += `</div>`;
+          html += `<div style="display:flex;justify-content:center;padding-top:32px">
+            <button class="finish-btn" onclick="loadCourseJourney('${lesson.course_slug}')">
+              ${ICONS.check}
+              <span>Complete Lesson</span>
+            </button>
+          </div>`;
 
-                    <h3 class="text-xl font-semibold text-gray-100 mt-4 mb-2 font-roboto"><i
-                            class="fa-regular fa-circle-dot"></i> Response Example</h3>
-                    <pre class="bg-gray-900 p-4 rounded overflow-x-auto text-gray-200 font-roboto">
-                        <code>
-                            {
-                                <span class="text-blue-400">"error"</span> : <span class="text-red-400">false</span>,
-                                <span class="text-blue-400">"message"</span> : <span class="text-red-400">"Learning material retrieved successfully."</span>,
-                                <span class="text-blue-400">"learningMaterial"</span> : {
-                                    <span class="text-blue-400">"id"</span> : <span class="text-red-400">1</span>,
-                                    <span class="text-blue-400">"title"</span> : <span class="text-red-400">"Learning Materials Number 1"</span>,
-                                    <span class="text-blue-400">"description"</span> : <span class="text-red-400">"Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum beatae, vitae dolore nobis quidem officiis fuga nostrum soluta odit provident consequuntur ab aliquam, at accusamus aperiam nam? Fuga, officiis ducimus!"</span>,
-                                    <span class="text-blue-400">"sub_materials"</span> : <span class="text-red-400">[
-                                        [
-                                            "Chapter 1: Example"
-                                        ],
-                                        [
-                                            "Chapter 2: Example"
-                                        ],
-                                        [
-                                            "Chapter 3: Example"
-                                        ]
-                                    ]</span>,
-                                    <span class="text-blue-400">"sub_body_materials"</span> : <span class="text-red-400">[
-                                        [
-                                            "Google Colab adalah platform berbasis cloud yang memungkinkan pengguna untuk menulis dan menjalankan kode Python dalam bentuk notebook Jupyter. Dengan akses gratis ke GPU dan TPU, platform ini mempercepat proses pelatihan model deep learning. Beberapa kelebihannya termasuk gratis, berbasis cloud, mudah dibagikan, dan terintegrasi dengan Google Drive. Cara menggunakannya cukup sederhana, yaitu dengan mengunjungi Google Colab, memulai notebook baru atau membuka notebook yang sudah ada, kemudian memilih "Runtime" dan "Change runtime type" untuk mengaktifkan GPU atau TPU, dan mulai menulis kode Python."
-                                        ],
-                                        [
-                                            "Sementara itu, Visual Studio Code (VSCode) adalah editor teks untuk pengembangan perangkat lunak yang menawarkan berbagai fitur canggih, seperti integrasi dengan Git, debugging, dan plugin untuk Python serta Jupyter notebooks. Kelebihan VSCode antara lain ringan, cepat, mendukung plugin Python Extension, Jupyter, dan TensorFlow Snippets, serta menyediakan fitur debugging dan integrasi dengan Git. Untuk menggunakan VSCode, pertama-tama unduh dan instal dari situs resmi, kemudian pasang Python extension dan Jupyter extension, buka file Python atau Jupyter Notebook, dan mulai menulis kode Python."
-                                        ],
-                                        [
-                                            "Matplotlib adalah library visualisasi data 2D di Python yang sangat fleksibel. Library ini digunakan untuk membuat berbagai jenis grafik dan plot, dari yang sederhana hingga yang kompleks. Kelebihannya terletak pada fleksibilitasnya, memungkinkan pengguna untuk menyesuaikan grafik sesuai kebutuhan. Contoh penggunaannya termasuk membuat plot dan grafik untuk memahami distribusi data.",
-                                            "Seaborn adalah library visualisasi yang dibangun di atas Matplotlib dan menyediakan antarmuka tingkat tinggi untuk membuat grafik statistik. Kelebihan Seaborn adalah lebih mudah digunakan dibandingkan Matplotlib dan menyediakan grafik yang lebih informatif dengan visual yang lebih menarik. Contoh penggunaannya termasuk visualisasi distribusi data dan hubungan antar variabel.",
-                                            "Plotly adalah library visualisasi yang mendukung pembuatan grafik interaktif. Kelebihan utama Plotly adalah kemampuannya untuk menghasilkan grafik yang interaktif dan dapat digunakan di web. Contoh penggunaannya meliputi pembuatan dashboard interaktif dan visualisasi hasil eksperimen, yang memungkinkan interaksi langsung dengan data."
-                                        ] 
-                                    ]</span>,
-                                    <span class="text-blue-400">"learning_image_path"</span> : <span class="text-red-400">"https://storage.googleapis.com/my-bucket-name/images/nodejs-intro.jpg"</span>,
-                                    <span class="text-blue-400">"created_at"</span> : <span class="text-red-400">"2024-01-01T00:00:00Z"</span>,
-                                    <span class="text-blue-400">"updated_at"</span> : <span class="text-red-400">"2024-01-01T00:00:00Z"</span>
-                                }
-                            }
-                        </code>
-                    </pre>
+          ws.innerHTML = html;
+        }
+      } catch (err) {
+        ws.innerHTML = `<div class="error-text">Failed to load lesson: ${err.message}</div>`;
+      }
+    }
 
-                    <h3 class="text-xl font-semibold text-gray-100 mt-4 mb-2 font-roboto"><i class="fa-regular fa-circle-dot"></i> Bad Response</h3>
-                    <pre class="bg-gray-900 p-4 rounded overflow-x-auto text-gray-200 font-roboto">
-                        <code>
-                            {
-                                <span class="text-blue-400">"error"</span> : <span class="text-red-400">true</span>,
-                                <span class="text-blue-400">"message"</span> : <span class="text-red-400">"Learning material not found. No material found with ID: {id}"</span>
-                            }
-                        </code>
-                    </pre>
+    // ── Quiz answer checker ────────────────────────
+    function checkQuizAnswer(button, correctIdx, chosenIdx, blockIdx) {
+      const details = document.getElementById(`quiz-details-${blockIdx}`);
+      if (details) details.classList.remove('hidden');
 
-                </div>
-            </section>
+      const siblings = button.parentElement.children;
+      for (const sib of siblings) {
+        sib.disabled = true;
+        sib.classList.remove('correct', 'wrong', 'correct-highlight');
+      }
 
-            <section id="prediction" class="mb-60">
-                <h2 class="text-2xl font-semibold text-blue-400 font-funnel"><i class="fa-regular fa-star"></i> Prediction Image</h2>
-                <p class="text-gray-300 mb-4 font-roboto">
-                    This API will return response in JSON format, about the prediction of fruits.
-                </p>
-
-                <div class="bg-gray-800 bg-opacity-60 backdrop-blur-lg p-6 rounded shadow">
-                    <h3 class="text-xl font-semibold text-gray-100 font-roboto"><i class="fa-regular fa-circle-dot"></i>
-                        Request</h3>
-                    <p class="text-gray-400 font-semibold">Method: <span
-                            class="text-blue-400 text-lg font-bold">POST</span></p>
-                    <p class="text-gray-400 font-semibold">URL: <span
-                            class="text-blue-400 text-lg font-bold">/predict</span></p>
-                    <p class="text-gray-400 font-semibold">Content-Type: <span
-                            class="text-blue-400 text-lg font-bold">multipart/form-data</span></p>
-                            <p class="text-gray-400 font-semibold">Key&Value: <span
-                                class="text-blue-400 text-lg font-bold">uploaded_file | image.jpg/etc</span></p>
-
-                    <h3 class="text-xl font-semibold text-gray-100 mt-4 mb-2 font-roboto"><i
-                            class="fa-regular fa-circle-dot"></i> Response Example</h3>
-                    <pre class="bg-gray-900 p-4 rounded overflow-x-auto text-gray-200 font-roboto">
-                        <code>
-                            {
-                                <span class="text-blue-400">"error"</span> : <span class="text-red-400">false</span>,
-                                <span class="text-blue-400">"message"</span> : <span class="text-red-400">"Prediction successfully !"</span>,
-                                <span class="text-blue-400">"prediction_result"</span> : {
-                                    <span class="text-blue-400">"predicted_class"</span> : <span class="text-red-400">0</span>,
-                                    <span class="text-blue-400">"predicted_label"</span> : <span class="text-red-400">"Apple"</span>,
-                                    <span class="text-blue-400">"image_url"</span> : <span class="text-red-400">"https://example.com/image.jpg"</span>,
-                                }
-                            }
-                        </code>
-                    </pre>
-
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <!-- Footer -->
-    <footer
-        class="sm:fixed sm:bottom-0 sm:left-0 sm:right-0 bg-gray-800 bg-opacity-60 backdrop-blur-lg text-gray-400 text-center py-4 font-roboto">
-        Copyright 2024 &copy; Cunny. All Rights Reserved.
-    </footer>
-
-    <script src="src/assets/main.js"></script>
+      if (chosenIdx === correctIdx) {
+        button.classList.add('correct');
+        button.querySelector('.choice-icon').innerHTML = ICONS.check;
+        button.querySelector('.choice-icon').style.cssText = 'width:16px;height:16px;color:var(--accent)';
+        const expl = document.getElementById(`quiz-expl-${blockIdx}`);
+        if (expl) expl.classList.remove('hidden');
+      } else {
+        button.classList.add('wrong');
+        button.querySelector('.choice-icon').innerHTML = ICONS.x;
+        button.querySelector('.choice-icon').style.cssText = 'width:16px;height:16px;color:var(--rose)';
+        siblings[correctIdx].classList.add('correct-highlight');
+      }
+    }
+  </script>
 </body>
-
 </html>
