@@ -1,0 +1,94 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Brain silhouette - centered in safe zone (roughly 18-90 dp area) -->
+    <!-- Left hemisphere -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,30 C48,30 43,32 40,35 C36,39 34,44 34,49 C34,52 35,55 37,57 C35,59 34,62 34,65 C34,70 37,74 41,76 C42,78 45,80 49,80 C51,80 53,79 54,78 L54,30z" />
+
+    <!-- Right hemisphere -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,30 C60,30 65,32 68,35 C72,39 74,44 74,49 C74,52 73,55 71,57 C73,59 74,62 74,65 C74,70 71,74 67,76 C66,78 63,80 59,80 C57,80 55,79 54,78 L54,30z" />
+
+    <!-- Brain center fold line -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M54,32 L54,78"
+        android:strokeWidth="1.2"
+        android:strokeColor="#9333EA" />
+
+    <!-- Left hemisphere detail curves -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M54,45 C50,45 46,47 43,50 C40,53 39,56 39,58"
+        android:strokeWidth="1.2"
+        android:strokeColor="#9333EA" />
+
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M54,58 C49,58 45,61 42,64 C40,67 39,70 40,73"
+        android:strokeWidth="1.2"
+        android:strokeColor="#9333EA" />
+
+    <!-- Right hemisphere detail curves -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M54,45 C58,45 62,47 65,50 C68,53 69,56 69,58"
+        android:strokeWidth="1.2"
+        android:strokeColor="#9333EA" />
+
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M54,58 C59,58 63,61 66,64 C68,67 69,70 68,73"
+        android:strokeWidth="1.2"
+        android:strokeColor="#9333EA" />
+
+    <!-- Neural network nodes (circles) -->
+    <!-- Top node -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,24 m-3,0 a3,3 0,1 1,6 0 a3,3 0,1 1,-6 0"
+        android:strokeWidth="1.5"
+        android:strokeColor="#E9D5FF" />
+
+    <!-- Bottom-left node -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M36,84 m-3,0 a3,3 0,1 1,6 0 a3,3 0,1 1,-6 0"
+        android:strokeWidth="1.5"
+        android:strokeColor="#E9D5FF" />
+
+    <!-- Bottom-right node -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M72,84 m-3,0 a3,3 0,1 1,6 0 a3,3 0,1 1,-6 0"
+        android:strokeWidth="1.5"
+        android:strokeColor="#E9D5FF" />
+
+    <!-- Neural connection lines -->
+    <!-- Top node to brain top -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M54,27 L54,30"
+        android:strokeWidth="1.5"
+        android:strokeColor="#E9D5FF" />
+
+    <!-- Brain bottom-left to bottom-left node -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M44,80 L36,84"
+        android:strokeWidth="1.5"
+        android:strokeColor="#E9D5FF" />
+
+    <!-- Brain bottom-right to bottom-right node -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M64,80 L72,84"
+        android:strokeWidth="1.5"
+        android:strokeColor="#E9D5FF" />
+</vector>

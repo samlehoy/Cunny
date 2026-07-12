@@ -1,0 +1,240 @@
+<resources>
+    <string name="app_name">Cunny</string>
+    <string name="title_home">Home</string>
+    <string name="title_materials">Material</string>
+    <string name="title_favorite">Bookmark</string>
+    <string name="courses">Courses</string>
+    <string name="saved">Saved</string>
+    <string name="you">You</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="searchbar_hint">Search Subject</string>
+    <string name="searchbar_bookmark">Search Bookmark</string>
+    <string name="img_description">Image Description</string>
+    <string name="enter_email">Please enter your E-mail.</string>
+    <string name="your_email">hanni@gmail.com</string>
+    <string name="invalid_email">Invalid E-Mail, please try again.</string>
+    <string name="enter_password">Please enter your Password.</string>
+    <string name="password_8digit">Password must be 8 characters.</string>
+    <string name="continueBtn">Continue</string>
+    <string name="back">Back</string>
+    <string name="practice">Akhirnya kamu sampai juga! Kamu bisa scan buah apa saja pakai kamera atau gallery di bawah ini, nanti kita jelasin.</string>
+    <string name="playground_hub_title">AI Playground</string>
+    <string name="playground_fruit_scanner">Fruit Scanner</string>
+    <string name="playground_fruit_scanner_desc">Scan buah dan lihat AI menebak jenisnya</string>
+    <string name="playground_sorting_game">Sorting Game</string>
+    <string name="playground_sorting_game_desc">Belajar supervised vs unsupervised dengan mengelompokkan hewan</string>
+    <string name="sorting_supervised_title">Supervised Learning</string>
+    <string name="sorting_unsupervised_title">Unsupervised Learning</string>
+    <string name="sorting_supervised_instruction">Beri label pada setiap hewan. Setelah 3 label, AI akan belajar polanya!</string>
+    <string name="sorting_unsupervised_instruction">AI telah mengelompokkan hewan-hewan ini. Tap setiap grup untuk memberi nama!</string>
+    <string name="sorting_label_item">Apa ini? Label: %s</string>
+    <string name="sorting_ai_guessed">AI sudah belajar! Lihat tebakan AI sebelum kamu menjawab.</string>
+    <string name="sorting_group_unknown">Grup %d (tap untuk menamai)</string>
+    <string name="sorting_hint_prefix">Ciri-ciri: </string>
+    <string name="sorting_name_group">Beri nama grup ini</string>
+    <string name="sorting_play_again">Main Lagi</string>
+    <string name="sorting_score">Skor: %d XP</string>
+    <string name="sorting_score_supervised">Kamu melabel %1$d dari %2$d hewan dengan benar! Skor: %3$d XP</string>
+    <string name="sorting_score_unsupervised">Kamu menamai %1$d dari %2$d grup dengan benar! Skor: %3$d XP</string>
+    <string name="classroom_title">My Classes</string>
+    <string name="classroom_title_id">Kelas Saya</string>
+    <string name="create_class">Create Class</string>
+    <string name="create_class_id">Buat Kelas</string>
+    <string name="join_class">Join Class</string>
+    <string name="join_class_id">Gabung Kelas</string>
+    <string name="class_name_hint">Class Name</string>
+    <string name="class_name_hint_id">Nama Kelas</string>
+    <string name="join_code_hint">Enter Code</string>
+    <string name="join_code_hint_id">Masukkan Kode</string>
+    <string name="join_code_helper">Ask your teacher for the class code</string>
+    <string name="join_code_helper_id">Minta kode kelas dari guru kamu</string>
+    <string name="copy_code">Copy Code</string>
+    <string name="copy_code_id">Salin Kode</string>
+    <string name="code_copied">Code copied!</string>
+    <string name="code_copied_id">Kode tersalin!</string>
+    <string name="joined_success">Joined successfully!</string>
+    <string name="joined_success_id">Berhasil bergabung!</string>
+    <string name="invalid_code">Invalid code</string>
+    <string name="invalid_code_id">Kode tidak valid</string>
+    <string name="students_tab">Students</string>
+    <string name="students_tab_id">Siswa</string>
+    <string name="assignments_tab">Assignments</string>
+    <string name="assignments_tab_id">Tugas</string>
+    <string name="no_classes">No classes yet</string>
+    <string name="no_classes_id">Belum ada kelas</string>
+    <string name="no_students">No students yet</string>
+    <string name="no_students_id">Belum ada siswa</string>
+    <string name="no_assignments">No assignments yet</string>
+    <string name="no_assignments_id">Belum ada tugas</string>
+    <string name="create_assignment">Create Assignment</string>
+    <string name="create_assignment_id">Buat Tugas</string>
+    <string name="assignment_title_hint">Assignment Title</string>
+    <string name="assignment_title_hint_id">Judul Tugas</string>
+    <string name="lesson_slug_hint">Lesson Slug</string>
+    <string name="due_date">Due Date</string>
+    <string name="classroom_button">Classroom</string>
+    <string name="classroom_button_id">Kelas</string>
+    <string name="teacher_badge">Teacher</string>
+    <string name="student_badge">Student</string>
+    <string name="done">Done</string>
+    <string name="done_id">Selesai</string>
+    <string name="create">Create</string>
+    <string name="create_id">Buat</string>
+    <string name="join">Join</string>
+    <string name="join_id">Gabung</string>
+    <string name="train_title">Train Your Own AI</string>
+    <string name="train_title_id">Latih AI Sendiri</string>
+    <string name="train_setup_title">What do you want to teach AI? Name 2-3 categories:</string>
+    <string name="train_setup_title_id">Apa yang ingin kamu ajarkan? Beri nama 2-3 kategori:</string>
+    <string name="train_label1">Category 1 (e.g. Pen)</string>
+    <string name="train_label1_id">Kategori 1 (misal: Pulpen)</string>
+    <string name="train_label2">Category 2 (e.g. Eraser)</string>
+    <string name="train_label2_id">Kategori 2 (misal: Penghapus)</string>
+    <string name="train_label3">Category 3 (optional)</string>
+    <string name="train_label3_id">Kategori 3 (opsional)</string>
+    <string name="train_training_title">Training AI...</string>
+    <string name="train_training_title_id">Melatih AI...</string>
+    <string name="train_test_now">Test My AI!</string>
+    <string name="train_test_now_id">Uji AI Saya!</string>
+    <string name="train_test_title">Test Your AI</string>
+    <string name="train_test_title_id">Uji AI-mu</string>
+    <string name="train_test_instruction">Take a photo of something new and see if your AI recognizes it!</string>
+    <string name="train_test_instruction_id">Ambil foto benda baru dan lihat apakah AI-mu mengenalinya!</string>
+    <string name="train_test_again">Test Another</string>
+    <string name="train_test_again_id">Uji Lagi</string>
+    <string name="train_add_more">Add More Photos</string>
+    <string name="train_add_more_id">Tambah Foto</string>
+    <string-array name="lesson_titles">
+        <item>What is AI?</item>
+        <item>How AI Learns</item>
+        <item>Supervised vs Unsupervised</item>
+        <item>Image Classification</item>
+        <item>AI Can Be Wrong</item>
+        <item>AI Around Us</item>
+    </string-array>
+
+    <string-array name="lesson_titles_id">
+        <item>Apa itu AI?</item>
+        <item>Bagaimana AI Belajar</item>
+        <item>Supervised vs Unsupervised</item>
+        <item>Klasifikasi Gambar</item>
+        <item>AI Bisa Salah</item>
+        <item>AI di Sekitar Kita</item>
+    </string-array>
+
+    <string-array name="lesson_slugs">
+        <item>what-is-ai</item>
+        <item>how-ai-learns</item>
+        <item>supervised-vs-unsupervised</item>
+        <item>image-classification</item>
+        <item>ai-can-be-wrong</item>
+        <item>ai-around-us</item>
+    </string-array>
+
+    <string-array name="data_photo">
+        <item>@drawable/assett_image_illustration_2</item>
+        <item>@drawable/assett_image_illustration_4</item>
+        <item>@drawable/assett_image_illustration_7</item>
+        <item>@drawable/assett_image_illustration_12</item>
+        <item>@drawable/assett_image_llustration_10</item>
+    </string-array>
+
+    <string-array name="duration">
+        <item>Duration : 5 minute</item>
+        <item>Duration : 5 minute</item>
+        <item>Duration : 5 minute</item>
+        <item>Duration : 5 minute</item>
+        <item>Duration : 5 minute</item>
+    </string-array>
+
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="title_login_page">Learn AI early!</string>
+    <string name="message_login_page">Enter your login details.</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Log In</string>
+    <string name="cunny">CUNNY</string>
+    <string name="register">Register</string>
+    <string name="name">Name</string>
+    <string name="enter_name">Please enter your Name.</string>
+    <string name="name_cannot_be_empty">Name cannot be empty.</string>
+    <string name="invalid_name">Invalid format.</string>
+    <string name="title_signup_page">Complete your registration.</string>
+    <string name="journey_title">AI Explorer</string>
+    <string name="journey_title_id">Penjelajah AI</string>
+    <string name="journey_current">Current</string>
+    <string name="journey_completed">Completed</string>
+    <string name="journey_locked">Locked</string>
+    <string name="journey_xp">XP: %1$d / %2$d</string>
+    <string name="journey_streak">🔥 %d days</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="start_practice">Start Practice</string>
+    <string name="title_signin_page">Welcome to Cunny!</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_setting">Settings</string>
+    <string name="materials">Ready to Learn?</string>
+    <string name="Bookmark">Bookmarks</string>
+    <string name="your_bookmark">All of your bookmarks are here.</string>
+    <string name="your_bookmarks">Your Bookmarks</string>
+    <string name="display_username">Your name</string>
+    <string name="hello_welcome">Hello, Welcome!</string>
+    <string name="your_latest">Your Latest</string>
+    <string name="course">Course!</string>
+    <string name="registernnow">Register Now</string>
+    <string name="loginnow">Login Now</string>
+    <string name="prediction_text">Gambar diatas menunjukkan bagaimana komputer belajar mengenali hewan seperti kucing dan anjing menggunakan AI. Komputer dilatih dengan gambar-gambar berlabel, lalu diuji dengan gambar baru untuk menebak jenis hewannya. Proses ini mirip dengan anak kecil yang belajar mengenali hewan dari gambar. Begitu pula proses yang telah kamu lakukan sebelumnya.</string>
+    <string name="Back">Back</string>
+    <string name="hasil">Hasil :</string>
+    <string name="choose_subject">Choose subject</string>
+    <string name="scroll_horizontally">Scroll Horizontally</string>
+    <string name="list_of_bookmark">List of Bookmark</string>
+    <string name="all_list_of_your_bookmarks">All list of your Bookmarks</string>
+    <string name="sub_material_title">Image Classification</string>
+    <string name="sub_course">Sub Course</string>
+    <string name="detail_course">Detail Course</string>
+    <string name="profile_page">Profile</string>
+    <string name="try_this_widget">Try this interactive widget</string>
+    <string name="submit_label">Submit</string>
+    <string name="lesson_loading">Loading lesson…</string>
+    <string name="lesson_error">Failed to load lesson</string>
+    <string name="xp_earned">XP Earned</string>
+
+    <string name="practice_flow_title">Alur Praktik</string>
+    <string name="practice_step_1">1. Membuka aplikasi.</string>
+    <string name="practice_step_2">2. Aplikasi menampilkan pilihan:</string>
+    <string name="practice_step_2a">Ambil Foto dari Kamera</string>
+    <string name="practice_step_2b">Pilih dari Galeri</string>
+    <string name="practice_step_3">3. Setelah gambar dipilih/diambil, ditampilkan preview.</string>
+    <string name="practice_step_4">4. Gambar dikirim ke model klasifikasi.</string>
+    <string name="practice_step_5">5. Hasil klasifikasi muncul di layar (misalnya: "Ini adalah Apple").</string>
+    <string name="tv_description_explanation">Model mengenali buah dari warna, bentuk, dan teksturnya. Gambar dibandingkan dengan data yang sudah dipelajari untuk menentukan buah yang paling mirip.</string>
+
+    <string name="welcome_title">Welcome to Cunny!</string>
+    <string name="welcome_subtitle">Learn AI by doing.</string>
+    <string name="get_started_btn">GET STARTED</string>
+    <string name="low_confidence_rationale_en">I\'m not very sure — try a clearer photo</string>
+    <string name="low_confidence_rationale_id">Aku kurang yakin — coba ambil foto yang lebih jelas ya!</string>
+    <string name="unknown_label_en">Unknown</string>
+    <string name="unknown_label_id">Tidak Diketahui</string>
+    <string name="unknown_rationale_en">Image could not be recognized.</string>
+    <string name="unknown_rationale_id">Gambar tidak dapat dikenali.</string>
+    <string name="no_rationale_en">No reasoning available for this fruit.</string>
+    <string name="no_rationale_id">Tidak ada informasi rationale untuk buah ini.</string>
+</resources>

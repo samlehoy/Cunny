@@ -1,0 +1,44 @@
+# ===== Build artifacts =====
+*.apk
+*.apks
+*.aab
+*.jks
+*.keystore
+Cunny/app/release/
+**/build/
+**/.gradle/
+
+# ===== Dependencies =====
+**/node_modules/
+
+# ===== Archives (keep repo light) =====
+*.zip
+*.tar
+*.gz
+
+# ===== IDE / Tooling / System =====
+.idea/
+.cursor/
+.superdesign/
+**/.kotlin/
+**/*.salive
+*.iml
+.git_old/
+.agents/
+.wrangler/
+
+# ===== Agent / dev config =====
+AGENTS.md
+opencode.json
+.discord-presence.json
+
+# ===== Local properties =====
+local.properties
+
+# ===== Logs =====
+*.log
+
+# ===== docs: only keep legal/ and Journal/ =====
+docs/*
+!docs/legal/
+!docs/Journal/

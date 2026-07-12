@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "577654610975",
+    "project_id": "cunny-e1337",
+    "storage_bucket": "cunny-e1337.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:577654610975:android:eb3a896f3ad49f091dc92a",
+        "android_client_info": {
+          "package_name": "com.eleonorez.cunny"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "577654610975-nqdn4i8njqutah0qvmbmqse7np80064c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eleonorez.cunny",
+            "certificate_hash": "f203810eb72042798dc6c0553e71af641cff668d"
+          }
+        },
+        {
+          "client_id": "577654610975-quhhf1ogm667b2l0erfrt3euo70mquhl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eleonorez.cunny",
+            "certificate_hash": "ce5ebfed6e679a9de8f0fb450ce0c9982fa57fbb"
+          }
+        },
+        {
+          "client_id": "577654610975-nr2stng7ic45ke6egh428qjd0d3001ro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWORHatUNWH12upQPxf9jE3xjzD-IkBWI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "577654610975-nr2stng7ic45ke6egh428qjd0d3001ro.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

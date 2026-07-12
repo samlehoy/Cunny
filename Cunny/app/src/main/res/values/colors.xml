@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary (Warm Plum) -->
+    <color name="primaryColor">#6C5CE7</color>
+    <color name="primaryLight">#9284A6</color>
+    <color name="primaryPale">#F0EBF4</color>
+    <color name="primaryShadow">#534662</color>
+    <color name="secondaryColor">#2E2838</color>
+    <color name="tertiaryColor">#1E1A1F</color>
+    <!-- Accents -->
+    <color name="accentOrange">#A68B52</color>
+    <color name="accentGreen">#4A6B58</color>
+    <color name="accentRed">#B42318</color>
+    <color name="accentYellow">#B8860B</color>
+    <!-- Neutrals -->
+    <color name="textDark">#1E1A1F</color>
+    <color name="textBody">#4A444F</color>
+    <color name="textSubtle">#847A88</color>
+    <color name="border_light">#EBE5EC</color>
+    <color name="borderLight">#EBE5EC</color>
+    <color name="bgSoft">#F4EFF4</color>
+    <!-- Legacy/Other -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFBF9F7</color>
+    <color name="topographyDark">#1E1A1F</color>
+    <color name="danger_color">#B42318</color>
+</resources>

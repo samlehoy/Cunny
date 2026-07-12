@@ -1,0 +1,144 @@
+{
+  "classes": [
+    {
+      "slug": "apple",
+      "display_en": "Apple",
+      "display_id": "Apel",
+      "rationale_en": "A round fruit with smooth skin, usually red, green, or yellow.",
+      "rationale_id": "Buah bulat dengan kulit halus, biasanya berwarna merah, hijau, atau kuning."
+    },
+    {
+      "slug": "banana",
+      "display_en": "Banana",
+      "display_id": "Pisang",
+      "rationale_en": "A long, curved fruit with a bright yellow peel.",
+      "rationale_id": "Buah panjang dan melengkung dengan kulit berwarna kuning cerah."
+    },
+    {
+      "slug": "orange",
+      "display_en": "Orange",
+      "display_id": "Jeruk",
+      "rationale_en": "A round orange fruit with bumpy, textured skin.",
+      "rationale_id": "Buah bulat berwarna oranye dengan kulit yang berpori."
+    },
+    {
+      "slug": "mango",
+      "display_en": "Mango",
+      "display_id": "Mangga",
+      "rationale_en": "An oval-shaped fruit with sweet yellow flesh and greenish-yellow skin.",
+      "rationale_id": "Buah berbentuk oval dengan daging manis berwarna kuning dan kulit hijau kekuningan."
+    },
+    {
+      "slug": "grape",
+      "display_en": "Grape",
+      "display_id": "Anggur",
+      "rationale_en": "Small round berries growing in clusters, typically purple or green.",
+      "rationale_id": "Buah bulat kecil yang tumbuh bergerombol, biasanya berwarna ungu atau hijau."
+    },
+    {
+      "slug": "strawberry",
+      "display_en": "Strawberry",
+      "display_id": "Stroberi",
+      "rationale_en": "Heart-shaped red fruit with seeds speckled on the outside skin.",
+      "rationale_id": "Buah merah berbentuk hati dengan biji-biji kecil yang tersebar di kulit luar."
+    },
+    {
+      "slug": "watermelon",
+      "display_en": "Watermelon",
+      "display_id": "Semangka",
+      "rationale_en": "Large striped green round fruit with red watery flesh.",
+      "rationale_id": "Buah bulat besar bergaris hijau dengan daging buah merah berair."
+    },
+    {
+      "slug": "pineapple",
+      "display_en": "Pineapple",
+      "display_id": "Nanas",
+      "rationale_en": "Spiky outer shell with a leafy crown on top.",
+      "rationale_id": "Kulit luar berduri tajam dengan mahkota daun di atasnya."
+    },
+    {
+      "slug": "papaya",
+      "display_en": "Papaya",
+      "display_id": "Pepaya",
+      "rationale_en": "An oblong, orange-fleshed fruit with many round black seeds inside.",
+      "rationale_id": "Buah lonjong dengan daging oranye dan banyak biji hitam bulat di dalamnya."
+    },
+    {
+      "slug": "avocado",
+      "display_en": "Avocado",
+      "display_id": "Alpukat",
+      "rationale_en": "Pear-shaped dark green fruit with a large single pit in the center.",
+      "rationale_id": "Buah berbentuk pir berwarna hijau tua dengan biji tunggal yang besar di tengah."
+    },
+    {
+      "slug": "durian",
+      "display_en": "Durian",
+      "display_id": "Durian",
+      "rationale_en": "Thick husk covered with sharp thorns; known as the king of fruits.",
+      "rationale_id": "Kulit tebal yang dipenuhi duri tajam; dikenal sebagai raja buah."
+    },
+    {
+      "slug": "mangosteen",
+      "display_en": "Mangosteen",
+      "display_id": "Manggis",
+      "rationale_en": "Deep purple round shell with a green stem and white segmented flesh.",
+      "rationale_id": "Kulit bulat ungu tua dengan tangkai hijau dan daging buah putih bersegmen."
+    },
+    {
+      "slug": "rambutan",
+      "display_en": "Rambutan",
+      "display_id": "Rambutan",
+      "rationale_en": "Red or yellow oval skin covered with soft hair-like spines.",
+      "rationale_id": "Kulit oval merah atau kuning yang ditutupi duri rambut yang lembut."
+    },
+    {
+      "slug": "salak",
+      "display_en": "Snake Fruit",
+      "display_id": "Salak",
+      "rationale_en": "Reddish-brown scale-like skin resembling snake scales.",
+      "rationale_id": "Kulit cokelat kemerahan bersisik mirip dengan sisik ular."
+    },
+    {
+      "slug": "tomato",
+      "display_en": "Tomato",
+      "display_id": "Tomat",
+      "rationale_en": "A smooth, glossy red fruit with juicy seeds inside.",
+      "rationale_id": "Buah merah halus mengkilap dengan biji-biji yang berair di dalamnya."
+    },
+    {
+      "slug": "lemon",
+      "display_en": "Lemon",
+      "display_id": "Lemon",
+      "rationale_en": "An oval yellow fruit with thick skin and sour juice.",
+      "rationale_id": "Buah kuning berbentuk oval dengan kulit tebal dan air buah yang asam."
+    },
+    {
+      "slug": "coconut",
+      "display_en": "Coconut",
+      "display_id": "Kelapa",
+      "rationale_en": "Large hairy brown shell with white flesh and coconut water.",
+      "rationale_id": "Tempurung cokelat berserat besar dengan daging putih dan air kelapa."
+    },
+    {
+      "slug": "dragon_fruit",
+      "display_en": "Dragon Fruit",
+      "display_id": "Buah Naga",
+      "rationale_en": "Bright pink skin with green scale-like leaves and speckled flesh.",
+      "rationale_id": "Kulit merah muda cerah dengan daun mirip sisik hijau dan daging berbintik."
+    },
+    {
+      "slug": "guava",
+      "display_en": "Guava",
+      "display_id": "Jambu Biji",
+      "rationale_en": "Green or yellow skin with pink or white seed-filled flesh.",
+      "rationale_id": "Kulit hijau atau kuning dengan daging buah berisi biji berwarna merah muda atau putih."
+    },
+    {
+      "slug": "pear",
+      "display_en": "Pear",
+      "display_id": "Pir",
+      "rationale_en": "A sweet, teardrop-shaped fruit with crispy white flesh.",
+      "rationale_id": "Buah manis berbentuk tetesan air dengan daging buah putih yang renyah."
+    }
+  ]
+}
