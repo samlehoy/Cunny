@@ -47,12 +47,6 @@ class MainActivity : ComponentActivity() {
                             .edit()
                             .putBoolean("Finished", true)
                             .apply()
-                    },
-                    onRoleSave = { role ->
-                        getSharedPreferences("onBoarding", MODE_PRIVATE)
-                            .edit()
-                            .putString("user_role", role)
-                            .apply()
                     }
                 )
             }

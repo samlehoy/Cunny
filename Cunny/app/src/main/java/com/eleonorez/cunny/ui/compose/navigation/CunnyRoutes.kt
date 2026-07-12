@@ -3,7 +3,6 @@ package com.eleonorez.cunny.ui.compose.navigation
 object CunnyRoutes {
     const val ONBOARDING = "onboarding/{step}"
     const val ONBOARDING_STEP_1 = "onboarding/1"
-    const val ONBOARDING_ROLE = "onboarding/role"
     const val ONBOARDING_STEP_2 = "onboarding/2"
 
     const val AGE_GATE = "onboarding/age-gate"

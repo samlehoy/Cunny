@@ -39,7 +39,6 @@ import com.eleonorez.cunny.ui.compose.screens.settings.SettingsScreen
 import com.eleonorez.cunny.ui.compose.screens.auth.LoginScreen
 import com.eleonorez.cunny.ui.compose.screens.auth.RegisterScreen
 import com.eleonorez.cunny.ui.compose.screens.onboarding.OnboardingStep1Screen
-import com.eleonorez.cunny.ui.compose.screens.onboarding.OnboardingRoleScreen
 import com.eleonorez.cunny.ui.compose.screens.onboarding.OnboardingStep2Screen
 import com.eleonorez.cunny.ui.compose.screens.onboarding.AgeGateScreen
 import com.eleonorez.cunny.ui.compose.screens.onboarding.ParentRestrictionScreen
@@ -62,8 +61,7 @@ import com.eleonorez.cunny.ui.compose.components.animations.MovingFluidBackgroun
 @Composable
 fun CunnyRootApp(
     startDestination: String,
-    onOnboardingComplete: () -> Unit,
-    onRoleSave: (String) -> Unit = {}
+    onOnboardingComplete: () -> Unit
 ) {
     // Theme is provided by MainActivity's CunnyTheme(darkTheme = useDarkTheme)
     val navController = rememberNavController()
@@ -106,25 +104,8 @@ fun CunnyRootApp(
                 composable(CunnyRoutes.ONBOARDING_STEP_2) {
                     OnboardingStep2Screen(
                         onContinue = {
-                            navController.navigate(CunnyRoutes.ONBOARDING_ROLE)
-                        }
-                    )
-                }
-                composable(CunnyRoutes.ONBOARDING_ROLE) {
-                    OnboardingRoleScreen(
-                        onRoleSelected = { role ->
                             onOnboardingComplete()
-                            onRoleSave(role)
-                            if (role == "guru") {
-                                // Teacher → navigate to Login (clearing onboarding) then to Register
-                                navController.navigate(CunnyRoutes.AUTH_LOGIN) {
-                                    popUpTo(CunnyRoutes.ONBOARDING_STEP_1) { inclusive = true }
-                                }
-                                navController.navigate(CunnyRoutes.AUTH_REGISTER)
-                            } else {
-                                // Student → age gate
-                                navController.navigate(CunnyRoutes.AGE_GATE)
-                            }
+                            navController.navigate(CunnyRoutes.AGE_GATE)
                         },
                         onLoginClicked = {
                             onOnboardingComplete()
@@ -134,6 +115,7 @@ fun CunnyRootApp(
                         }
                     )
                 }
+                // Role selection removed — all users are students, age-gated directly
                 // Age Gate Screen
                 composable(CunnyRoutes.AGE_GATE) {
                     AgeGateScreen(

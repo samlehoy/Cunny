@@ -108,7 +108,7 @@ fun OnboardingStep1Screen(
             )
         }
 
-        // Onboard dots (3 dots, first active)
+        // Onboard dots (2 dots, first active)
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(bottom = 28.dp),
@@ -126,12 +126,6 @@ fun OnboardingStep1Screen(
                     .clip(CircleShape)
                     .background(CunnyColors.border)
             )
-            Box(
-                modifier = Modifier
-                    .size(8.dp)
-                    .clip(CircleShape)
-                    .background(CunnyColors.border)
-            )
         }
 
         CunnyDarkButton(text = "Continue", onClick = onContinue)
@@ -140,7 +134,8 @@ fun OnboardingStep1Screen(
 
 @Composable
 fun OnboardingStep2Screen(
-    onContinue: () -> Unit
+    onContinue: () -> Unit,
+    onLoginClicked: () -> Unit = {}
 ) {
     val composition by rememberLottieComposition(LottieCompositionSpec.Asset("cunny-mascot.json"))
 
@@ -197,7 +192,7 @@ fun OnboardingStep2Screen(
             )
         }
 
-        // Onboard dots (3 dots, second active)
+        // Onboard dots (2 dots, second active)
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(bottom = 28.dp),
@@ -215,15 +210,34 @@ fun OnboardingStep2Screen(
                     .clip(RoundedCornerShape(4.dp))
                     .background(Brush.linearGradient(CunnyColors.gradPlum))
             )
-            Box(
-                modifier = Modifier
-                    .size(8.dp)
-                    .clip(CircleShape)
-                    .background(CunnyColors.border)
-            )
         }
 
-        CunnyDarkButton(text = "Continue", onClick = onContinue)
+        CunnyDarkButton(text = "Lanjutkan", onClick = onContinue)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Login link for existing users
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "Sudah punya akun? ",
+                fontFamily = DmSansFontFamily,
+                fontSize = 14.sp,
+                color = CunnyColors.textSubtle
+            )
+            Text(
+                text = "Login",
+                fontFamily = DmSansFontFamily,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = CunnyColors.primary,
+                modifier = Modifier.clickable { onLoginClicked() }
+            )
+        }
     }
 }
 
