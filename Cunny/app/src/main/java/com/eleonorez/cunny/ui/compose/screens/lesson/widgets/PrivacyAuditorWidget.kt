@@ -1,5 +1,7 @@
 package com.eleonorez.cunny.ui.compose.screens.lesson.widgets
 
+import com.adamglin.phosphoricons.Regular
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
@@ -29,6 +31,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.regular.Shield
+import com.adamglin.phosphoricons.regular.Lock
+import com.adamglin.phosphoricons.regular.Clipboard
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -214,7 +221,12 @@ fun PrivacyAuditorWidget(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 // Header
-                Text("🛡️", fontSize = 36.sp, modifier = Modifier.padding(bottom = 4.dp))
+                Icon(
+                    imageVector = PhosphorIcons.Regular.Shield,
+                    contentDescription = null,
+                    tint = CunnyColors.primary,
+                    modifier = Modifier.size(40.dp).padding(bottom = 4.dp)
+                )
                 Text(
                     text = "Audit Privasi",
                     fontFamily = SoraFontFamily,
@@ -607,7 +619,12 @@ private fun PhonePermissionContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Lock icon
-            Text("🔒", fontSize = 24.sp)
+            Icon(
+                imageVector = PhosphorIcons.Regular.Lock,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier.size(24.dp)
+            )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = "Izin Akses",
@@ -769,7 +786,12 @@ private fun PhoneAuditResult(
     results: List<PermissionAuditResult>,
     onNextApp: () -> Unit
 ) {
-    Text("📋", fontSize = 28.sp)
+    Icon(
+        imageVector = PhosphorIcons.Regular.Clipboard,
+        contentDescription = null,
+        tint = Color.White,
+        modifier = Modifier.size(28.dp)
+    )
     Spacer(modifier = Modifier.height(4.dp))
     Text(
         text = "Laporan Audit",

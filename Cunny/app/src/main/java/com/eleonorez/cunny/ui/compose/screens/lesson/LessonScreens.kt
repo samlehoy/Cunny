@@ -97,6 +97,10 @@ fun LessonIntroScreen(
     val state by viewModel.uiState.observeAsState(LessonUiState.Loading)
     val courseLessons by viewModel.courseLessons.observeAsState(emptyList())
     val progressState by viewModel.userProgress.collectAsState(initial = null)
+    val completions by viewModel.lessonCompletions.collectAsState(initial = emptyList())
+    val isCompleted = remember(completions, slug) {
+        completions.any { it.lessonSlug == slug }
+    }
     var currentTime by remember { mutableLongStateOf(System.currentTimeMillis()) }
     val energy = progressState?.energy ?: 5
     val lastRefillTime = progressState?.lastRefillTime ?: 0L
@@ -410,8 +414,10 @@ fun LessonIntroScreen(
                             .padding(start = 24.dp, end = 24.dp, top = 20.dp, bottom = 24.dp),
                         contentAlignment = Alignment.Center
                     ) {
-                        val hasEnergy = energy > 0
-                        val buttonText = if (hasEnergy) {
+                        val hasEnergy = energy > 0 || isCompleted
+                        val buttonText = if (isCompleted) {
+                            "Start Review (Free)"
+                        } else if (hasEnergy) {
                             "Spend 1 energy to start"
                         } else {
                             val minutesStr = if (energy < 5 && lastRefillTime > 0L) {
@@ -435,7 +441,11 @@ fun LessonIntroScreen(
                                 if (hasEnergy) {
                                     scope.launch {
                                         SoundSynthesizer.play(context, SoundSynthesizer.SoundType.WHOOSH)
-                                        val consumed = GamificationManager(context).consumeEnergy(1)
+                                        val consumed = if (isCompleted) {
+                                            true
+                                        } else {
+                                            GamificationManager(context).consumeEnergy(1)
+                                        }
                                         if (consumed) {
                                             onStart()
                                         }

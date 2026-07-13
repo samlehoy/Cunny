@@ -12,6 +12,7 @@ import com.eleonorez.cunny.data.repository.LessonRepository
 import com.eleonorez.cunny.data.repository.CourseRepository
 import com.eleonorez.cunny.data.repository.ProgressRepository
 import com.eleonorez.cunny.data.database.UserProgressEntity
+import com.eleonorez.cunny.data.database.LessonCompletionEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
@@ -28,6 +29,7 @@ class LessonViewModel(
 ) : ViewModel() {
 
     val userProgress: Flow<UserProgressEntity?> = progressRepository.userProgress
+    val lessonCompletions: Flow<List<LessonCompletionEntity>> = progressRepository.lessonCompletions
 
     private val _uiState = MutableLiveData<LessonUiState>(LessonUiState.Loading)
     val uiState: LiveData<LessonUiState> = _uiState

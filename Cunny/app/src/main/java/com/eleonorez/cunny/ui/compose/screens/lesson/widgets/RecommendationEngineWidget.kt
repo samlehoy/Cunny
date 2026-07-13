@@ -1,5 +1,7 @@
 package com.eleonorez.cunny.ui.compose.screens.lesson.widgets
 
+import com.adamglin.phosphoricons.Regular
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
@@ -30,6 +32,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.regular.Television
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -197,7 +202,12 @@ fun RecommendationEngineWidget(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 // Header
-                Text("📺", fontSize = 36.sp, modifier = Modifier.padding(bottom = 4.dp))
+                Icon(
+                    imageVector = PhosphorIcons.Regular.Television,
+                    contentDescription = null,
+                    tint = CunnyColors.primary,
+                    modifier = Modifier.size(40.dp).padding(bottom = 4.dp)
+                )
                 Text(
                     text = "Mesin Rekomendasi AI",
                     fontFamily = SoraFontFamily,

@@ -1,10 +1,15 @@
 package com.eleonorez.cunny.ui.compose.screens.lesson.widgets
 
+import com.adamglin.phosphoricons.Regular
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.regular.Camera
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -83,10 +88,11 @@ fun ScannerTeaserWidget(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(
-                text = "📷",
-                fontSize = 40.sp,
-                modifier = Modifier.padding(bottom = 8.dp)
+            Icon(
+                imageVector = PhosphorIcons.Regular.Camera,
+                contentDescription = null,
+                tint = CunnyColors.primary,
+                modifier = Modifier.size(40.dp).padding(bottom = 8.dp)
             )
             Text(
                 text = widgetLabel,

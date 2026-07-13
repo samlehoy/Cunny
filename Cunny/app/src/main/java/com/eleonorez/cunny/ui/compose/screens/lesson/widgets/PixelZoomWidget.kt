@@ -1,5 +1,7 @@
 package com.eleonorez.cunny.ui.compose.screens.lesson.widgets
 
+import com.adamglin.phosphoricons.Fill
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -15,6 +17,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.fill.Rabbit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -80,7 +85,12 @@ fun PixelZoomWidget(
                 modifier = Modifier.padding(20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-            Text("\uD83D\uDC30", fontSize = 40.sp, modifier = Modifier.padding(bottom = 8.dp))
+            Icon(
+                imageVector = PhosphorIcons.Fill.Rabbit,
+                contentDescription = null,
+                tint = CunnyColors.primary,
+                modifier = Modifier.size(40.dp).padding(bottom = 8.dp)
+            )
             Text(
                 text = "Pixel Zoom RGB",
                 fontFamily = SoraFontFamily,

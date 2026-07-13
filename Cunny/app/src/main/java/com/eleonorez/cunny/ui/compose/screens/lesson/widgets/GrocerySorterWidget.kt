@@ -1,5 +1,8 @@
 package com.eleonorez.cunny.ui.compose.screens.lesson.widgets
 
+import com.adamglin.phosphoricons.Regular
+import androidx.compose.foundation.layout.size
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +17,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.regular.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -93,7 +99,12 @@ fun GrocerySorterWidget(
                 modifier = Modifier.padding(20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("\uD83D\uDED2", fontSize = 40.sp, modifier = Modifier.padding(bottom = 8.dp))
+                Icon(
+                    imageVector = PhosphorIcons.Regular.ShoppingCart,
+                    contentDescription = null,
+                    tint = CunnyColors.primary,
+                    modifier = Modifier.size(40.dp).padding(bottom = 8.dp)
+                )
                 Text(
                     text = "Grocery Sorter (Tipe Data)",
                     fontFamily = SoraFontFamily,

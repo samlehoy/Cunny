@@ -1,5 +1,8 @@
 package com.eleonorez.cunny.ui.compose.screens.lesson.widgets
 
+import com.adamglin.phosphoricons.Regular
+import androidx.compose.foundation.layout.size
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -13,6 +16,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.regular.NotePencil
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.animation.core.animateDpAsState
@@ -107,7 +113,12 @@ fun NextWordPredictorWidget(
                 modifier = Modifier.padding(20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("📝", fontSize = 40.sp, modifier = Modifier.padding(bottom = 8.dp))
+                Icon(
+                    imageVector = PhosphorIcons.Regular.NotePencil,
+                    contentDescription = null,
+                    tint = CunnyColors.primary,
+                    modifier = Modifier.size(40.dp).padding(bottom = 8.dp)
+                )
                 Text(
                     text = "Prediksi Kata Berikutnya",
                     fontFamily = SoraFontFamily,

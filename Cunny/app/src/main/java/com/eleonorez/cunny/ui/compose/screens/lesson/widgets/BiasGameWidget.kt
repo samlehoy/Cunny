@@ -1,5 +1,7 @@
 package com.eleonorez.cunny.ui.compose.screens.lesson.widgets
 
+import com.adamglin.phosphoricons.Regular
+
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -7,6 +9,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.regular.Scales
 import androidx.compose.runtime.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -111,7 +116,12 @@ fun BiasGameWidget(
                 modifier = Modifier.padding(20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("⚖️", fontSize = 40.sp, modifier = Modifier.padding(bottom = 8.dp))
+                Icon(
+                    imageVector = PhosphorIcons.Regular.Scales,
+                    contentDescription = null,
+                    tint = CunnyColors.primary,
+                    modifier = Modifier.size(40.dp).padding(bottom = 8.dp)
+                )
                 Text(
                     text = "Game Bias",
                     fontFamily = SoraFontFamily,

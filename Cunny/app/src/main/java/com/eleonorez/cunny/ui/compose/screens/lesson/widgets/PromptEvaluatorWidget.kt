@@ -2,6 +2,9 @@
 
 package com.eleonorez.cunny.ui.compose.screens.lesson.widgets
 
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.Fill
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -38,6 +41,10 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.fill.Rabbit
+import com.adamglin.phosphoricons.regular.Robot
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -219,7 +226,12 @@ fun PromptEvaluatorWidget(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 // ── Header ───────────────────────────────────────────────
-                Text("🐰", fontSize = 40.sp, modifier = Modifier.padding(bottom = 8.dp))
+                Icon(
+                    imageVector = PhosphorIcons.Fill.Rabbit,
+                    contentDescription = null,
+                    tint = CunnyColors.primary,
+                    modifier = Modifier.size(40.dp).padding(bottom = 8.dp)
+                )
                 Text(
                     text = "Evaluator Jawaban AI",
                     fontFamily = SoraFontFamily,
@@ -433,7 +445,12 @@ private fun TypingIndicator() {
         modifier = Modifier.padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text("🤖", fontSize = 20.sp)
+        Icon(
+            imageVector = PhosphorIcons.Regular.Robot,
+            contentDescription = null,
+            tint = CunnyColors.primary,
+            modifier = Modifier.size(20.dp)
+        )
         Spacer(modifier = Modifier.width(8.dp))
 
         for (i in 0 until 3) {

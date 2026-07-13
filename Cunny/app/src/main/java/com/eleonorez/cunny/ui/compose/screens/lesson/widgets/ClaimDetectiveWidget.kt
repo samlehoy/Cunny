@@ -1,5 +1,7 @@
 package com.eleonorez.cunny.ui.compose.screens.lesson.widgets
 
+import com.adamglin.phosphoricons.Regular
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
@@ -29,6 +31,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.regular.Detective
+import com.adamglin.phosphoricons.regular.Newspaper
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -157,7 +163,12 @@ fun ClaimDetectiveWidget(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 // Header
-                Text("🕵️", fontSize = 36.sp, modifier = Modifier.padding(bottom = 4.dp))
+                Icon(
+                    imageVector = PhosphorIcons.Regular.Detective,
+                    contentDescription = null,
+                    tint = CunnyColors.primary,
+                    modifier = Modifier.size(40.dp).padding(bottom = 4.dp)
+                )
                 Text(
                     text = "Detektif Klaim AI",
                     fontFamily = SoraFontFamily,
@@ -335,7 +346,12 @@ private fun ClaimCard(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Newspaper emoji
-            Text("📰", fontSize = 28.sp)
+            Icon(
+                imageVector = PhosphorIcons.Regular.Newspaper,
+                contentDescription = null,
+                tint = CunnyColors.primary,
+                modifier = Modifier.size(28.dp)
+            )
             Spacer(modifier = Modifier.height(12.dp))
 
             // Claim text

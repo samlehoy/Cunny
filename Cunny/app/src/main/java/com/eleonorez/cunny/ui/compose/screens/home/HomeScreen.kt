@@ -28,6 +28,7 @@ import com.adamglin.phosphoricons.fill.CheckCircle
 import com.adamglin.phosphoricons.fill.Lock
 import com.adamglin.phosphoricons.fill.Play
 import com.adamglin.phosphoricons.regular.Play
+import com.adamglin.phosphoricons.regular.BookOpen
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -445,7 +446,12 @@ private fun CourseCarouselCard(
                         contentScale = ContentScale.Fit
                     )
                 } else {
-                    Text("📚", fontSize = 56.sp)
+                    Icon(
+                        imageVector = PhosphorIcons.Regular.BookOpen,
+                        contentDescription = null,
+                        tint = CunnyColors.primary,
+                        modifier = Modifier.size(56.dp)
+                    )
                 }
             }
 
