@@ -316,7 +316,7 @@ fun LessonIntroScreen(
                         val emojiShape = CircleShape
                         Box(
                             modifier = Modifier
-                                .size(140.dp)
+                                .size(180.dp)
                                 .padding(bottom = 4.dp)
                                 .background(
                                     color = CunnyColors.tactileShadow, // Solid 3D warm plum base shadow
@@ -343,7 +343,7 @@ fun LessonIntroScreen(
                                     Image(
                                         painter = painterResource(id = lessonDrawable),
                                         contentDescription = lesson.title,
-                                        modifier = Modifier.size(100.dp)
+                                        modifier = Modifier.size(136.dp)
                                     )
                                 } else {
                                     val emoji = when (slug) {
@@ -357,7 +357,7 @@ fun LessonIntroScreen(
                                     }
                                     Text(
                                         text = emoji,
-                                        fontSize = 64.sp,
+                                        fontSize = 80.sp,
                                         modifier = Modifier.align(Alignment.Center)
                                     )
                                 }

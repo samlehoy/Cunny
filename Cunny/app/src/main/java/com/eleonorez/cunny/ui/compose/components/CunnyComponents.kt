@@ -1078,7 +1078,7 @@ fun CourseListRow(
                 Image(
                     painter = painterResource(id = drawableResId),
                     contentDescription = title,
-                    modifier = Modifier.size(72.dp)
+                    modifier = Modifier.size(88.dp)
                 )
                 Spacer(Modifier.width(12.dp))
             } else {
