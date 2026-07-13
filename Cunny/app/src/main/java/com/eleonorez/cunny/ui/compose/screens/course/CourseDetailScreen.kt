@@ -9,6 +9,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -136,7 +138,7 @@ fun CourseDetailScreen(
             StatPillSmall(text = "⚡ ${progressState?.energy ?: 5}")
         }
 
-        // Hero Illustration (Custom Canvas drawing matching SVG)
+        // Hero Illustration (Dynamic course illustration or fallback canvas)
         Box(
             modifier = Modifier
                 .width(140.dp)
@@ -144,7 +146,22 @@ fun CourseDetailScreen(
                 .align(Alignment.CenterHorizontally),
             contentAlignment = Alignment.Center
         ) {
-            CourseDetailHeroGraphic(modifier = Modifier.fillMaxSize())
+            val courseDrawable = when (slug) {
+                "intro-to-ai" -> com.eleonorez.cunny.R.drawable.ic_course_intro_to_ai
+                "how-ai-learns-course" -> com.eleonorez.cunny.R.drawable.ic_course_how_ai_learns
+                "generative-ai-course" -> com.eleonorez.cunny.R.drawable.ic_course_generative_ai
+                "ai-ethics-course" -> com.eleonorez.cunny.R.drawable.ic_course_ai_ethics
+                else -> null
+            }
+            if (courseDrawable != null) {
+                Image(
+                    painter = painterResource(id = courseDrawable),
+                    contentDescription = courseTitle,
+                    modifier = Modifier.size(110.dp)
+                )
+            } else {
+                CourseDetailHeroGraphic(modifier = Modifier.fillMaxSize())
+            }
         }
 
         // Title and Info Section
