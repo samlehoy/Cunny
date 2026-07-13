@@ -400,10 +400,10 @@ private fun CourseCarouselCard(
 ) {
     // Load course illustration from assets
     val assetPath = when (courseSlug) {
-        "intro-to-ai" -> "images/courses/course_basic_ai.webp"
-        "how-ai-learns-course" -> "images/courses/course_ai_learning.webp"
-        "generative-ai-course" -> "images/courses/course_generative_ai.webp"
-        "ai-ethics-course" -> "images/courses/course_ai_ethics.webp"
+        "intro-to-ai" -> "images/courses/course_basic_ai.png"
+        "how-ai-learns-course" -> "images/courses/course_ai_learning.png"
+        "generative-ai-course" -> "images/courses/course_generative_ai.png"
+        "ai-ethics-course" -> "images/courses/course_ai_ethics.png"
         else -> null
     }
     val context = LocalContext.current

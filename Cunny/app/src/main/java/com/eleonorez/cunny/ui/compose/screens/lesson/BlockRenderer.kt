@@ -570,7 +570,7 @@ fun CalloutBlockRenderer(block: CalloutBlock) {
                         shape = shape
                     )
             )
-            
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
