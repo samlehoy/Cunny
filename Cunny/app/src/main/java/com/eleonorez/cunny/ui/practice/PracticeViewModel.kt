@@ -70,7 +70,7 @@ class PracticeViewModel(application: Application) : AndroidViewModel(application
                 classifier.close()
 
                 val engine = ExplainabilityEngine(getApplication())
-                val result = engine.compile(rawPredictions)
+                val result = engine.compile(rawPredictions, "id")
 
                 val uri = _selectedImageUri.value
                 if (uri != null) {
