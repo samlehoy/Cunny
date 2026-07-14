@@ -1030,9 +1030,9 @@ fun QuizBlockRenderer(
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    var selectedChoiceIndex by remember { mutableStateOf<Int?>(null) }
-    var quizPassed by remember { mutableStateOf(false) }
-    val shakeOffset = remember { Animatable(0f) }
+    var selectedChoiceIndex by remember(block) { mutableStateOf<Int?>(null) }
+    var quizPassed by remember(block) { mutableStateOf(false) }
+    val shakeOffset = remember(block) { Animatable(0f) }
 
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
