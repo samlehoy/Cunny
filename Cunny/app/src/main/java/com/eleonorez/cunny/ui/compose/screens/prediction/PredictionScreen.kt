@@ -13,6 +13,8 @@ import androidx.compose.foundation.verticalScroll
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.regular.ArrowLeft
+import com.adamglin.phosphoricons.Bold
+import com.adamglin.phosphoricons.bold.Lightbulb
 import com.eleonorez.cunny.ui.compose.components.CunnyBackButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -97,56 +99,83 @@ fun PredictionScreen(
             // Preview Image matching HTML .pred-img
             if (!imageUri.isNullOrEmpty()) {
                 val parsedUri = remember(imageUri) { Uri.parse(imageUri) }
-                AndroidView(
-                    factory = { ctx ->
-                        ImageView(ctx).apply {
-                            scaleType = ImageView.ScaleType.CENTER_CROP
-                        }
-                    },
-                    update = { view ->
-                        view.setImageURI(parsedUri)
-                    },
+                val imageShape = RoundedCornerShape(CunnyDimens.radiusSurface)
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(180.dp)
-                        .clip(RoundedCornerShape(CunnyDimens.radiusSurface))
-                        .border(
-                            width = 1.dp,
-                            color = CunnyColors.border,
-                            shape = RoundedCornerShape(CunnyDimens.radiusSurface)
+                        .padding(bottom = 4.dp)
+                        .background(
+                            color = CunnyColors.tactileShadow,
+                            shape = imageShape
                         )
-                )
+                ) {
+                    AndroidView(
+                        factory = { ctx ->
+                            ImageView(ctx).apply {
+                                scaleType = ImageView.ScaleType.CENTER_CROP
+                            }
+                        },
+                        update = { view ->
+                            view.setImageURI(parsedUri)
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(180.dp)
+                            .offset(y = (-4).dp)
+                            .clip(imageShape)
+                            .border(
+                                width = 1.dp,
+                                color = CunnyColors.border,
+                                shape = imageShape
+                            )
+                    )
+                }
             }
 
             Spacer(Modifier.height(20.dp))
 
             // Prediction Result Solid Green Card matching CSS success boxes
+            val cardShape = RoundedCornerShape(CunnyDimens.radiusSurface)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(CunnyDimens.radiusSurface))
-                    .background(Brush.horizontalGradient(CunnyColors.gradProgress))
-                    .padding(20.dp)
+                    .padding(bottom = 4.dp)
+                    .background(
+                        color = CunnyColors.tactileShadow,
+                        shape = cardShape
+                    )
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = "Prediction: ${predictedLabel?.uppercase() ?: "UNKNOWN"}",
-                        fontFamily = SoraFontFamily,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
-                        color = Color.White
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "${(confidence * 100).toInt()}% confidence",
-                        fontFamily = DmSansFontFamily,
-                        fontSize = 13.sp,
-                        color = Color.White.copy(alpha = 0.85f)
-                    )
-                    Spacer(modifier = Modifier.height(12.dp))
-                    CunnyProgressTrack(
-                        progress = confidence.toFloat()
-                    )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .offset(y = (-4).dp)
+                        .clip(cardShape)
+                        .background(Brush.horizontalGradient(CunnyColors.gradProgress))
+                        .padding(20.dp)
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "Hasil Prediksi: ${predictedLabel?.uppercase() ?: "UNKNOWN"}",
+                            fontFamily = SoraFontFamily,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                            color = Color.White
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "Tingkat Keyakinan: ${(confidence * 100).toInt()}%",
+                            fontFamily = DmSansFontFamily,
+                            fontSize = 13.sp,
+                            color = Color.White.copy(alpha = 0.85f)
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+                        CunnyProgressTrack(
+                            progress = confidence.toFloat()
+                        )
+                    }
                 }
             }
 
@@ -154,42 +183,61 @@ fun PredictionScreen(
 
             // Top-K predictions list card
             if (topKList.isNotEmpty()) {
-                GlassSurface(
-                    shape = RoundedCornerShape(CunnyDimens.radiusLg),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Column(
-                        modifier = Modifier.padding(20.dp),
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
-                        Text(
-                            text = "Top Predictions",
-                            fontFamily = SoraFontFamily,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 15.sp,
-                            color = CunnyColors.textDark
+                val topKShape = RoundedCornerShape(CunnyDimens.radiusLg)
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 4.dp)
+                        .background(
+                            color = CunnyColors.tactileShadow,
+                            shape = topKShape
                         )
+                ) {
+                    GlassSurface(
+                        shape = topKShape,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .offset(y = (-4).dp)
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(20.dp),
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            Text(
+                                text = "Prediksi Teratas",
+                                fontFamily = SoraFontFamily,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 15.sp,
+                                color = CunnyColors.textDark
+                            )
 
-                        topKList.forEach { prediction ->
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = prediction.label.uppercase(),
-                                    fontFamily = DmSansFontFamily,
-                                    fontWeight = FontWeight.Medium,
-                                    fontSize = 14.sp,
-                                    color = CunnyColors.textDark
-                                )
-                                Text(
-                                    text = "${(prediction.confidence * 100).toInt()}%",
-                                    fontFamily = DmSansFontFamily,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 14.sp,
-                                    color = CunnyColors.textBody
-                                )
+                            topKList.forEach { prediction ->
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    val translatedLabel = when (prediction.label.lowercase()) {
+                                        "banana" -> "PISANG"
+                                        "apple" -> "APEL"
+                                        "orange" -> "JERUK"
+                                        else -> prediction.label.uppercase()
+                                    }
+                                    Text(
+                                        text = translatedLabel,
+                                        fontFamily = DmSansFontFamily,
+                                        fontWeight = FontWeight.Medium,
+                                        fontSize = 14.sp,
+                                        color = CunnyColors.textDark
+                                    )
+                                    Text(
+                                        text = "${(prediction.confidence * 100).toInt()}%",
+                                        fontFamily = DmSansFontFamily,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 14.sp,
+                                        color = CunnyColors.textBody
+                                    )
+                                }
                             }
                         }
                     }
@@ -200,37 +248,61 @@ fun PredictionScreen(
 
             // Rationale Callout Card
             if (!rationale.isNullOrEmpty()) {
-                GlassSurface(
-                    shape = RoundedCornerShape(CunnyDimens.radiusLg),
-                    modifier = Modifier.fillMaxWidth()
+                val rationaleShape = RoundedCornerShape(CunnyDimens.radiusLg)
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 4.dp)
+                        .background(
+                            color = CunnyColors.tactileShadow,
+                            shape = rationaleShape
+                        )
                 ) {
-                    Row(
+                    GlassSurface(
+                        shape = rationaleShape,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(IntrinsicSize.Min)
+                            .offset(y = (-4).dp)
                     ) {
-                        Box(
+                        Row(
                             modifier = Modifier
-                                .width(4.dp)
-                                .fillMaxHeight()
-                                .background(CunnyColors.accentOrange)
-                        )
-                        Column(modifier = Modifier.padding(16.dp)) {
-                            Text(
-                                text = "💡 Rationale",
-                                fontFamily = SoraFontFamily,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 14.sp,
-                                color = CunnyColors.accentOrange,
-                                modifier = Modifier.padding(bottom = 4.dp)
+                                .fillMaxWidth()
+                                .height(IntrinsicSize.Min)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .width(4.dp)
+                                    .fillMaxHeight()
+                                    .background(CunnyColors.accentOrange)
                             )
-                            Text(
-                                text = rationale,
-                                fontFamily = DmSansFontFamily,
-                                fontSize = 14.sp,
-                                color = CunnyColors.textBody,
-                                lineHeight = 22.sp
-                            )
+                            Column(modifier = Modifier.padding(16.dp)) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                    modifier = Modifier.padding(bottom = 6.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = PhosphorIcons.Bold.Lightbulb,
+                                        contentDescription = null,
+                                        tint = CunnyColors.accentOrange,
+                                        modifier = Modifier.size(16.dp)
+                                    )
+                                    Text(
+                                        text = "Penjelasan",
+                                        fontFamily = SoraFontFamily,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 14.sp,
+                                        color = CunnyColors.accentOrange
+                                    )
+                                }
+                                Text(
+                                    text = rationale,
+                                    fontFamily = DmSansFontFamily,
+                                    fontSize = 14.sp,
+                                    color = CunnyColors.textBody,
+                                    lineHeight = 22.sp
+                                )
+                            }
                         }
                     }
                 }
@@ -239,7 +311,7 @@ fun PredictionScreen(
             Spacer(Modifier.height(28.dp))
 
             CunnyPrimaryButton(
-                text = "Done",
+                text = "Selesai",
                 onClick = onDone
             )
 
