@@ -50,7 +50,7 @@ fun SettingsScreen(
     val soundOn by settingsManager.soundFlow.collectAsState(initial = false)
     val currentTheme by settingsManager.themeFlow.collectAsState(initial = "light")
 
-    val stubClick: () -> Unit = { CunnyToast.show("Coming in v2!", CunnyToastType.INFO) }
+    val stubClick: () -> Unit = { CunnyToast.show("Hadir di v2!", CunnyToastType.INFO) }
 
     val backgroundBrush = Brush.verticalGradient(
         colors = listOf(Color(0xFFFBF9F7), Color(0xFFF4EFF4))
@@ -68,7 +68,7 @@ fun SettingsScreen(
 
         // Flat settings rows
         SettingsRow(
-            label = "Account",
+            label = "Akun",
             onClick = onProfile,
             icon = {
                 Icon(
@@ -89,7 +89,7 @@ fun SettingsScreen(
         )
 
         SettingsRow(
-            label = "Notifications",
+            label = "Notifikasi",
             onClick = stubClick,
             icon = {
                 Icon(
@@ -112,7 +112,7 @@ fun SettingsScreen(
         SettingsDivider()
 
         SettingsRow(
-            label = "Cunny narration",
+            label = "Narasi suara",
             icon = {
                 Icon(
                     imageVector = PhosphorIcons.Regular.SpeakerHigh,
@@ -132,7 +132,7 @@ fun SettingsScreen(
         )
 
         SettingsRow(
-            label = "Sound effects",
+            label = "Efek suara",
             icon = {
                 Icon(
                     imageVector = PhosphorIcons.Regular.MusicNotes,
@@ -167,14 +167,19 @@ fun SettingsScreen(
             Spacer(Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Theme",
+                    text = "Tema",
                     fontFamily = DmSansFontFamily,
                     fontWeight = FontWeight.Medium,
                     fontSize = 16.sp,
                     color = CunnyColors.textDark
                 )
+                val themeLabel = when (currentTheme.lowercase()) {
+                    "light" -> "Terang"
+                    "dark" -> "Gelap"
+                    else -> "Auto"
+                }
                 Text(
-                    text = currentTheme.replaceFirstChar { it.uppercase() },
+                    text = themeLabel,
                     fontFamily = DmSansFontFamily,
                     fontSize = 13.sp,
                     color = CunnyColors.textSubtle
@@ -191,7 +196,7 @@ fun SettingsScreen(
         SettingsDivider()
 
         SettingsRow(
-            label = "About",
+            label = "Tentang",
             onClick = stubClick,
             icon = {
                 Icon(
@@ -212,7 +217,7 @@ fun SettingsScreen(
         )
 
         SettingsRow(
-            label = "Help",
+            label = "Bantuan",
             onClick = stubClick,
             icon = {
                 Icon(
@@ -233,7 +238,7 @@ fun SettingsScreen(
         )
 
         SettingsRow(
-            label = "Report a problem",
+            label = "Laporkan masalah",
             onClick = stubClick,
             icon = {
                 Icon(
@@ -256,13 +261,13 @@ fun SettingsScreen(
         SettingsDivider()
 
         SettingsRow(
-            label = "Log out",
+            label = "Keluar",
             onClick = onLogout,
             labelColor = CunnyColors.accentRed,
             icon = {
                 Icon(
                     imageVector = PhosphorIcons.Regular.SignOut,
-                    contentDescription = "Log out",
+                    contentDescription = "Keluar",
                     tint = CunnyColors.accentRed,
                     modifier = Modifier.size(24.dp)
                 )
