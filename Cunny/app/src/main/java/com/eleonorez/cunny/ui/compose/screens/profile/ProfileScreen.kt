@@ -86,7 +86,7 @@ fun ProfileScreen(
             CunnyBackButton(onClick = onBack)
             Spacer(modifier = Modifier.width(16.dp))
             Text(
-                text = "Profile",
+                text = "Profil",
                 fontFamily = SoraFontFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
@@ -144,7 +144,7 @@ fun ProfileScreen(
 
             Spacer(Modifier.height(8.dp))
             Text(
-                text = "Change Photo",
+                text = "Ubah Foto",
                 fontFamily = SoraFontFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 13.sp,
@@ -156,7 +156,7 @@ fun ProfileScreen(
 
             // Form fields
             CunnyFormField(
-                label = "Name",
+                label = "Nama",
                 value = name,
                 onValueChange = { name = it },
                 modifier = Modifier.padding(bottom = 16.dp)
@@ -168,30 +168,30 @@ fun ProfileScreen(
                 modifier = Modifier.padding(bottom = 16.dp)
             )
             CunnyFormField(
-                label = "Old Password",
+                label = "Kata Sandi Lama",
                 value = oldPassword,
                 onValueChange = { oldPassword = it },
                 isPassword = true,
-                placeholder = "Enter old password",
+                placeholder = "Masukkan kata sandi lama",
                 modifier = Modifier.padding(bottom = 16.dp)
             )
             CunnyFormField(
-                label = "New Password",
+                label = "Kata Sandi Baru",
                 value = newPassword,
                 onValueChange = { newPassword = it },
                 isPassword = true,
-                placeholder = "Enter new password",
+                placeholder = "Masukkan kata sandi baru",
                 modifier = Modifier.padding(bottom = 8.dp)
             )
 
             Spacer(Modifier.height(8.dp))
-            CunnyPrimaryButton(text = "Save Changes", onClick = {
-                CunnyToast.show("Saved!", CunnyToastType.SUCCESS)
+            CunnyPrimaryButton(text = "Simpan Perubahan", onClick = {
+                CunnyToast.show("Disimpan!", CunnyToastType.SUCCESS)
             })
 
             Spacer(Modifier.height(28.dp))
             Text(
-                text = "Badges",
+                text = "Lencana",
                 fontFamily = SoraFontFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
@@ -202,7 +202,7 @@ fun ProfileScreen(
 
             if (badgesState.isEmpty()) {
                 Text(
-                    text = "Complete lessons and scans to earn badges.",
+                    text = "Selesaikan pelajaran dan pemindaian untuk mendapatkan lencana.",
                     fontFamily = DmSansFontFamily,
                     fontSize = 13.sp,
                     color = CunnyColors.textSubtle,
@@ -215,8 +215,8 @@ fun ProfileScreen(
                 ) {
                     badgesState.forEach { badge ->
                         val label = when (badge.badgeId) {
-                            "lesson-complete" -> "🏆 Lesson Complete"
-                            "first-scan" -> "📸 First Scan"
+                            "lesson-complete" -> "Pelajaran Selesai"
+                            "first-scan" -> "Pemindaian Pertama"
                             else -> badge.badgeId
                         }
                         Box(
@@ -246,7 +246,7 @@ fun ProfileScreen(
             // Restore Purchase section
             Spacer(Modifier.height(16.dp))
             Text(
-                text = "Subscription",
+                text = "Langganan",
                 fontFamily = SoraFontFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
@@ -287,7 +287,7 @@ fun ProfileScreen(
             
             Spacer(Modifier.height(16.dp))
             Text(
-                text = "Danger Zone",
+                text = "Zona Bahaya",
                 fontFamily = SoraFontFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
@@ -296,7 +296,7 @@ fun ProfileScreen(
             )
             Spacer(Modifier.height(8.dp))
             CunnyPrimaryButton(
-                text = "Delete Account",
+                text = "Hapus Akun",
                 onClick = { showDeleteDialog = true },
                 containerColor = Color(0xFFD32F2F)
             )
@@ -304,8 +304,8 @@ fun ProfileScreen(
             if (showDeleteDialog) {
                 AlertDialog(
                     onDismissRequest = { showDeleteDialog = false },
-                    title = { Text("Delete Account?", fontFamily = SoraFontFamily, fontWeight = FontWeight.Bold) },
-                    text = { Text("This will permanently delete your account, learning progress, achievements, and all related data. This action cannot be undone.", fontFamily = DmSansFontFamily) },
+                    title = { Text("Hapus Akun?", fontFamily = SoraFontFamily, fontWeight = FontWeight.Bold) },
+                    text = { Text("Tindakan ini akan menghapus akun, progres belajar, pencapaian, dan semua data terkait secara permanen. Tindakan ini tidak dapat dibatalkan.", fontFamily = DmSansFontFamily) },
                     confirmButton = {
                         TextButton(
                             onClick = {
@@ -329,20 +329,20 @@ fun ProfileScreen(
                                         Firebase.auth.signOut()
                                         
                                         // 4. Navigate to Login screen (clear entire back stack)
-                                        CunnyToast.show("Account deleted successfully", CunnyToastType.SUCCESS)
+                                        CunnyToast.show("Akun berhasil dihapus", CunnyToastType.SUCCESS)
                                         onAccountDeleted()
                                     } catch (e: Exception) {
-                                        CunnyToast.show("Failed to delete account: ${e.message}", CunnyToastType.ERROR)
+                                        CunnyToast.show("Gagal menghapus akun: ${e.message}", CunnyToastType.ERROR)
                                     }
                                 }
                             }
                         ) {
-                            Text("Delete Permanently", color = Color(0xFFD32F2F), fontFamily = SoraFontFamily, fontWeight = FontWeight.Bold)
+                            Text("Hapus Permanen", color = Color(0xFFD32F2F), fontFamily = SoraFontFamily, fontWeight = FontWeight.Bold)
                         }
                     },
                     dismissButton = {
                         TextButton(onClick = { showDeleteDialog = false }) {
-                            Text("Cancel", fontFamily = SoraFontFamily)
+                            Text("Batal", fontFamily = SoraFontFamily)
                         }
                     }
                 )
