@@ -115,7 +115,7 @@ fun PracticeScreen(
                 Spacer(modifier = Modifier.weight(1f))
 
                 Text(
-                    text = "Practice",
+                    text = "Latihan",
                     fontFamily = SoraFontFamily,
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
@@ -172,7 +172,7 @@ fun PracticeScreen(
                 Spacer(Modifier.height(16.dp))
 
                 Text(
-                    text = "Fruit Scanner",
+                    text = "Pemindai Buah",
                     fontFamily = SoraFontFamily,
                     fontWeight = FontWeight.Bold,
                     fontSize = 22.sp,
@@ -200,7 +200,7 @@ fun PracticeScreen(
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         Text(
-                            text = "Steps",
+                            text = "Langkah-langkah",
                             fontFamily = SoraFontFamily,
                             fontWeight = FontWeight.Bold,
                             fontSize = 15.sp,
@@ -208,9 +208,9 @@ fun PracticeScreen(
                         )
 
                         val steps = listOf(
-                            "Take a photo or pick from gallery",
-                            "Preview the selected image",
-                            "Submit to the AI model for classification"
+                            "Ambil foto atau pilih dari galeri",
+                            "Pratinjau gambar yang dipilih",
+                            "Kirim ke model AI untuk klasifikasi"
                         )
 
                         steps.forEachIndexed { index, step ->
@@ -251,7 +251,7 @@ fun PracticeScreen(
                 // Camera / Gallery Buttons Row
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     CunnyOutlineButton(
-                        text = "Camera",
+                        text = "Kamera",
                         icon = PhosphorIcons.Regular.Camera,
                         onClick = {
                             val uri = getImageUri(context)
@@ -261,7 +261,7 @@ fun PracticeScreen(
                         modifier = Modifier.weight(1f)
                     )
                     CunnyOutlineButton(
-                        text = "Gallery",
+                        text = "Galeri",
                         icon = PhosphorIcons.Regular.Image,
                         onClick = {
                             galleryLauncher.launch(
@@ -278,7 +278,7 @@ fun PracticeScreen(
 
                 // Classify button
                 CunnyPrimaryButton(
-                    text = "Upload & Classify",
+                    text = "Unggah & Klasifikasikan",
                     onClick = {
                         val uri = imageUri
                         if (uri != null) {
@@ -291,7 +291,7 @@ fun PracticeScreen(
                             }
                             viewModel.uploadImage(tempFile, lessonSlug)
                         } else {
-                            CunnyToast.show("Please select an image first", CunnyToastType.INFO)
+                            CunnyToast.show("Silakan pilih gambar terlebih dahulu", CunnyToastType.INFO)
                         }
                     },
                     isLoading = uiState is PracticeUiState.Loading

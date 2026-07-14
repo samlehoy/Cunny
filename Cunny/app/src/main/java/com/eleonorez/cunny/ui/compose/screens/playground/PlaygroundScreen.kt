@@ -44,14 +44,9 @@ fun PlaygroundScreen(
     onOpenPractice: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val backgroundBrush = Brush.verticalGradient(
-        colors = listOf(Color(0xFFFBF9F7), Color(0xFFF4EFF4))
-    )
-
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(backgroundBrush)
             .cunnyStatusBarPadding()
             .verticalScroll(rememberScrollState())
     ) {
@@ -77,15 +72,15 @@ fun PlaygroundScreen(
 
         Column(modifier = Modifier.padding(horizontal = 24.dp)) {
             Text(
-                text = "v1: fruit scanner only. Others ship in v2.",
+                text = "v1: pemindai buah saja. Yang lainnya akan hadir di v2.",
                 fontFamily = DmSansFontFamily,
                 fontSize = 14.sp,
                 color = CunnyColors.textSubtle
             )
             Spacer(Modifier.height(12.dp))
             PlaygroundCard(
-                title = "Fruit Scanner",
-                subtitle = "Classify images with AI",
+                title = "Pemindai Buah",
+                subtitle = "Klasifikasikan gambar dengan AI",
                 icon = PhosphorIcons.Regular.Camera,
                 iconTint = Color(0xFF2E7D32),
                 bg = Brush.linearGradient(listOf(Color(0xFFE0F5E0), Color(0xFFC0ECC0))),
@@ -94,8 +89,8 @@ fun PlaygroundScreen(
             )
             Spacer(Modifier.height(12.dp))
             PlaygroundCard(
-                title = "Sorting Game",
-                subtitle = "Practice sorting visually",
+                title = "Game Mengurutkan",
+                subtitle = "Latih pengurutan secara visual",
                 icon = PhosphorIcons.Regular.Package,
                 iconTint = Color(0xFFE65100),
                 bg = Brush.linearGradient(listOf(Color(0xFFFFF0E0), Color(0xFFFFE0C0))),
@@ -105,8 +100,8 @@ fun PlaygroundScreen(
             )
             Spacer(Modifier.height(12.dp))
             PlaygroundCard(
-                title = "Train Your Own AI",
-                subtitle = "Teach a model from examples",
+                title = "Latih AI Anda Sendiri",
+                subtitle = "Ajarkan model dari contoh-contoh",
                 icon = PhosphorIcons.Regular.Brain,
                 iconTint = Color(0xFF6A1B9A),
                 bg = Brush.linearGradient(listOf(Color(0xFFF3E5F5), Color(0xFFE1BEE7))),
