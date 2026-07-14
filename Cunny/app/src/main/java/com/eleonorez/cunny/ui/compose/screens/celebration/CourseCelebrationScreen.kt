@@ -44,8 +44,12 @@ import com.eleonorez.cunny.ui.theme.DmSansFontFamily
 import com.eleonorez.cunny.ui.theme.SoraFontFamily
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 import com.eleonorez.cunny.helper.SoundSynthesizer
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 
 
 @Composable
@@ -58,6 +62,8 @@ fun CourseCelebrationScreen(
     val context = LocalContext.current
     val composition by rememberLottieComposition(LottieCompositionSpec.Asset("cunny-mascot.json"))
     val confettiComposition by rememberLottieComposition(LottieCompositionSpec.Asset("confetti.json"))
+    var confettiTrigger by remember { mutableStateOf(0) }
+    val mascotScale = remember { Animatable(1f) }
 
     // Narration
     val narrationManager = remember { NarrationManager(context) }
@@ -93,11 +99,13 @@ fun CourseCelebrationScreen(
             .background(backgroundBrush)
     ) {
         // Falling Confetti Layer (Lottie-based)
-        LottieAnimation(
-            composition = confettiComposition,
-            iterations = LottieConstants.IterateForever,
-            modifier = Modifier.fillMaxSize()
-        )
+        key(confettiTrigger) {
+            LottieAnimation(
+                composition = confettiComposition,
+                iterations = 1, // play once per tap/load
+                modifier = Modifier.fillMaxSize()
+            )
+        }
 
         Column(
             modifier = Modifier
@@ -111,9 +119,26 @@ fun CourseCelebrationScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             // Mascot Animation
+            val scope = rememberCoroutineScope()
             Box(
                 modifier = Modifier
-                    .size(160.dp),
+                    .size(160.dp)
+                    .graphicsLayer {
+                        scaleX = mascotScale.value
+                        scaleY = mascotScale.value
+                    }
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,
+                        onClick = {
+                            scope.launch {
+                                SoundSynthesizer.play(context, SoundSynthesizer.SoundType.SUCCESS)
+                                confettiTrigger += 1
+                                mascotScale.animateTo(1.25f, spring(stiffness = Spring.StiffnessMediumLow))
+                                mascotScale.animateTo(1f, spring(stiffness = Spring.StiffnessMediumLow))
+                            }
+                        }
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 LottieAnimation(
