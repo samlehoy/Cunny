@@ -85,7 +85,7 @@ fun OnboardingStep1Screen(
             }
 
             Text(
-                text = "Hi, I'm Coji.\nYour AI study buddy.",
+                text = "Halo, aku Coji.\nTeman belajar AI-mu.",
                 fontFamily = SoraFontFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 30.sp,
@@ -98,7 +98,7 @@ fun OnboardingStep1Screen(
             Spacer(Modifier.height(12.dp))
 
             Text(
-                text = "Short lessons, real practice — built for curious learners.",
+                text = "Pelajaran singkat, praktik nyata — dirancang untuk pelajar yang penasaran.",
                 fontFamily = DmSansFontFamily,
                 fontSize = 16.sp,
                 color = CunnyColors.textBody,
@@ -128,7 +128,7 @@ fun OnboardingStep1Screen(
             )
         }
 
-        CunnyDarkButton(text = "Continue", onClick = onContinue)
+        CunnyDarkButton(text = "Lanjutkan", onClick = onContinue)
     }
 }
 
@@ -169,7 +169,7 @@ fun OnboardingStep2Screen(
             }
 
             Text(
-                text = "Learn by doing.\nNot by watching.",
+                text = "Belajar dengan praktik.\nBukan cuma menonton.",
                 fontFamily = SoraFontFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 30.sp,
@@ -182,7 +182,7 @@ fun OnboardingStep2Screen(
             Spacer(Modifier.height(12.dp))
 
             Text(
-                text = "Classify images, answer quizzes, and see how models actually work.",
+                text = "Klasifikasikan gambar, jawab kuis, dan lihat bagaimana model AI bekerja.",
                 fontFamily = DmSansFontFamily,
                 fontSize = 16.sp,
                 color = CunnyColors.textBody,
@@ -230,7 +230,7 @@ fun OnboardingStep2Screen(
                 color = CunnyColors.textSubtle
             )
             Text(
-                text = "Login",
+                text = "Masuk",
                 fontFamily = DmSansFontFamily,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
@@ -355,7 +355,7 @@ fun OnboardingRoleScreen(
                 color = CunnyColors.textSubtle
             )
             Text(
-                text = "Login",
+                text = "Masuk",
                 fontFamily = DmSansFontFamily,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
