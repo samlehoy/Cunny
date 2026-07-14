@@ -12,8 +12,6 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.Image
-import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -487,12 +485,25 @@ private fun NumberedStepCards(items: List<NumberedItem>) {
 
 @Composable
 fun ImageBlockRenderer(block: ImageBlock) {
-    val imageRes = remember(block.imageUrl) {
-        if (block.imageUrl == "custom://supervised-vs-unsupervised") {
-            com.eleonorez.cunny.R.drawable.il_lesson_supervised_vs_unsupervised
-        } else {
-            null
+    if (block.imageUrl == "custom://supervised-vs-unsupervised") {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            SupervisedVsUnsupervisedVisual()
+            if (block.caption != null) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = block.caption,
+                    fontFamily = DmSansFontFamily,
+                    fontSize = 12.sp,
+                    color = CunnyColors.textSubtle,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
+        return
     }
 
     Column(
@@ -505,23 +516,12 @@ fun ImageBlockRenderer(block: ImageBlock) {
                 .fillMaxWidth()
                 .height(180.dp)
         ) {
-            if (imageRes != null) {
-                androidx.compose.foundation.Image(
-                    painter = androidx.compose.ui.res.painterResource(id = imageRes),
-                    contentDescription = block.caption ?: "Lesson illustration",
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(RoundedCornerShape(CunnyDimens.radiusMd)),
-                    contentScale = androidx.compose.ui.layout.ContentScale.Fit
-                )
-            } else {
-                Icon(
-                    imageVector = PhosphorIcons.Regular.Camera,
-                    contentDescription = "Image placeholder",
-                    tint = CunnyColors.textSubtle,
-                    modifier = Modifier.align(Alignment.Center).size(48.dp)
-                )
-            }
+            Icon(
+                imageVector = PhosphorIcons.Regular.Camera,
+                contentDescription = "Image placeholder",
+                tint = CunnyColors.textSubtle,
+                modifier = Modifier.align(Alignment.Center).size(48.dp)
+            )
         }
         if (block.caption != null) {
             Spacer(modifier = Modifier.height(8.dp))
@@ -537,6 +537,135 @@ fun ImageBlockRenderer(block: ImageBlock) {
     }
 }
 
+@Composable
+fun SupervisedVsUnsupervisedVisual() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        // Left Column (Supervised)
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight()
+                .background(CunnyColors.tactileShadow, shape = RoundedCornerShape(CunnyDimens.radiusMd))
+        ) {
+            GlassSurface(
+                shape = RoundedCornerShape(CunnyDimens.radiusMd),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .offset(y = (-3).dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(12.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Icon(
+                        imageVector = PhosphorIcons.Regular.ChalkboardTeacher,
+                        contentDescription = "Supervised Learning",
+                        tint = CunnyColors.primary,
+                        modifier = Modifier.size(36.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Supervised",
+                        fontFamily = SoraFontFamily,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 14.sp,
+                        color = CunnyColors.textDark
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        PillLabel(text = "🍎 Apel")
+                        PillLabel(text = "🍊 Jeruk")
+                    }
+                }
+            }
+        }
+
+        // Right Column (Unsupervised)
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight()
+                .background(CunnyColors.tactileShadow, shape = RoundedCornerShape(CunnyDimens.radiusMd))
+        ) {
+            GlassSurface(
+                shape = RoundedCornerShape(CunnyDimens.radiusMd),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .offset(y = (-3).dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(12.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Icon(
+                        imageVector = PhosphorIcons.Regular.CirclesThree,
+                        contentDescription = "Unsupervised Learning",
+                        tint = CunnyColors.accentGreen,
+                        modifier = Modifier.size(36.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Unsupervised",
+                        fontFamily = SoraFontFamily,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 14.sp,
+                        color = CunnyColors.textDark
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Text(
+                            text = "( 🍎 🍎 )",
+                            fontFamily = DmSansFontFamily,
+                            fontSize = 12.sp,
+                            color = CunnyColors.textDark
+                        )
+                        Text(
+                            text = "( 🍊 🍊 )",
+                            fontFamily = DmSansFontFamily,
+                            fontSize = 12.sp,
+                            color = CunnyColors.textDark
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun PillLabel(text: String) {
+    Box(
+        modifier = Modifier
+            .background(CunnyColors.primaryPale, shape = RoundedCornerShape(6.dp))
+            .border(1.dp, CunnyColors.primary.copy(alpha = 0.2f), shape = RoundedCornerShape(6.dp))
+            .padding(horizontal = 6.dp, vertical = 3.dp)
+    ) {
+        Text(
+            text = text,
+            fontFamily = DmSansFontFamily,
+            fontWeight = FontWeight.Bold,
+            fontSize = 9.sp,
+            color = CunnyColors.primary
+        )
+    }
+}
 
 @Composable
 fun CalloutBlockRenderer(block: CalloutBlock) {

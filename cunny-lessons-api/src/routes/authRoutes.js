@@ -6,17 +6,23 @@ const router = new Hono()
 
 router.post('/auth/register', requireAuth, async (c) => {
   const firebaseUid = c.get('firebaseUid')
+  const email = c.get('email')
   const { display_name, role, birth_year, parent_email } = await c.req.json()
+  
+  // Dynamic energy override for testing accounts
+  const testingEmails = ['samlehoy1337z@gmail.com', 'muttaqien0111@gmail.com']
+  const energyVal = (email && testingEmails.includes(email.toLowerCase())) ? 999 : 5
+
   let client
   try {
     client = getClient(c.env)
     await client.connect()
     const result = await client.query(
-      `INSERT INTO users (firebase_uid, display_name, role, xp, level, streak, energy, last_active_date, updated_at, birth_year, parent_email)
-       VALUES ($1, $2, $3, 0, 1, 0, 5, CURRENT_DATE, NOW(), $4, $5)
-       ON CONFLICT (firebase_uid) DO UPDATE SET display_name = $2, updated_at = NOW()
+      `INSERT INTO users (firebase_uid, email, display_name, role, xp, level, streak, energy, last_active_date, updated_at, birth_year, parent_email)
+       VALUES ($1, $2, $3, $4, 0, 1, 0, $5, CURRENT_DATE, NOW(), $6, $7)
+       ON CONFLICT (firebase_uid) DO UPDATE SET email = EXCLUDED.email, display_name = EXCLUDED.display_name, energy = EXCLUDED.energy, updated_at = NOW()
        RETURNING *`,
-      [firebaseUid, display_name || 'User', role || 'student', birth_year || null, parent_email || null]
+      [firebaseUid, email, display_name || 'User', role || 'student', energyVal, birth_year || null, parent_email || null]
     )
     return c.json({ error: false, user: result.rows[0] }, 200)
   } catch (err) {
@@ -28,6 +34,7 @@ router.post('/auth/register', requireAuth, async (c) => {
 
 router.get('/auth/me', requireAuth, async (c) => {
   const firebaseUid = c.get('firebaseUid')
+  const email = c.get('email')
   let client
   try {
     client = getClient(c.env)
@@ -36,7 +43,28 @@ router.get('/auth/me', requireAuth, async (c) => {
     if (result.rows.length === 0) {
       return c.json({ error: true, message: 'User not found. Register first.' }, 404)
     }
-    return c.json({ error: false, user: result.rows[0] }, 200)
+    
+    let user = result.rows[0]
+    
+    // Auto-update email and set energy=999 if it matches testing accounts
+    const testingEmails = ['samlehoy1337z@gmail.com', 'muttaqien0111@gmail.com']
+    const isTestingAccount = email && testingEmails.includes(email.toLowerCase())
+    const needsEnergyUpdate = isTestingAccount && user.energy !== 999
+    const needsEmailUpdate = email && user.email !== email
+    
+    if (needsEmailUpdate || needsEnergyUpdate) {
+      const updatedEnergy = needsEnergyUpdate ? 999 : user.energy
+      const updateResult = await client.query(
+        `UPDATE users 
+         SET email = $1, energy = $2, updated_at = NOW() 
+         WHERE firebase_uid = $3 
+         RETURNING *`,
+        [email, updatedEnergy, firebaseUid]
+      )
+      user = updateResult.rows[0]
+    }
+    
+    return c.json({ error: false, user }, 200)
   } catch (err) {
     return c.json({ error: true, message: err.message }, 500)
   } finally {
