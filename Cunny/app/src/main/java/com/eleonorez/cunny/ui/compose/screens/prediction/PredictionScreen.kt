@@ -268,6 +268,7 @@ fun PredictionScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(IntrinsicSize.Min)
+                                .clip(rationaleShape)
                         ) {
                             Box(
                                 modifier = Modifier
