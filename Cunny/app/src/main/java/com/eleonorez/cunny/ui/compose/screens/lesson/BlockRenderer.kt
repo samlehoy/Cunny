@@ -66,6 +66,10 @@ import com.adamglin.phosphoricons.regular.Camera
 import com.adamglin.phosphoricons.regular.ChalkboardTeacher
 import com.adamglin.phosphoricons.regular.CirclesThree
 import com.eleonorez.cunny.ui.compose.screens.lesson.widgets.*
+import androidx.compose.foundation.Canvas
+import androidx.compose.ui.BiasAlignment
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.draw.rotate
 
 @Composable
 fun BlockRenderer(
@@ -542,7 +546,7 @@ fun SupervisedVsUnsupervisedVisual() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp),
+            .height(240.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         // Left Column (Supervised)
@@ -561,31 +565,138 @@ fun SupervisedVsUnsupervisedVisual() {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(12.dp),
+                        .padding(10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Icon(
-                        imageVector = PhosphorIcons.Regular.ChalkboardTeacher,
-                        contentDescription = "Supervised Learning",
-                        tint = CunnyColors.primary,
-                        modifier = Modifier.size(36.dp)
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "Supervised",
-                        fontFamily = SoraFontFamily,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 14.sp,
-                        color = CunnyColors.textDark
-                    )
-                    Spacer(modifier = Modifier.height(12.dp))
+                    // Header
                     Row(
-                        horizontalArrangement = Arrangement.spacedBy(6.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier.fillMaxWidth()
                     ) {
-                        PillLabel(text = "🍎 Apel")
-                        PillLabel(text = "🍊 Jeruk")
+                        Icon(
+                            imageVector = PhosphorIcons.Regular.ChalkboardTeacher,
+                            contentDescription = "Supervised Learning",
+                            tint = CunnyColors.primary,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            text = "Supervised",
+                            fontFamily = SoraFontFamily,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 12.sp,
+                            color = CunnyColors.textDark
+                        )
+                    }
+                    
+                    // Coordinate grid
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .background(
+                                color = CunnyColors.backgroundWarm.copy(alpha = 0.15f),
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                            .border(
+                                width = 1.dp,
+                                color = CunnyColors.borderLight.copy(alpha = 0.5f),
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                    ) {
+                        val gridLinesColor = CunnyColors.borderLight
+                        val boundaryColor = CunnyColors.primary
+                        
+                        Canvas(modifier = Modifier.fillMaxSize()) {
+                            val width = size.width
+                            val height = size.height
+                            
+                            // Draw grid lines (3x3 grid)
+                            val gridLines = 4
+                            for (i in 1 until gridLines) {
+                                val fraction = i.toFloat() / gridLines
+                                // Horizontal
+                                drawLine(
+                                    color = gridLinesColor.copy(alpha = 0.4f),
+                                    start = Offset(0f, height * fraction),
+                                    end = Offset(width, height * fraction),
+                                    strokeWidth = 1.dp.toPx()
+                                )
+                                // Vertical
+                                drawLine(
+                                    color = gridLinesColor.copy(alpha = 0.4f),
+                                    start = Offset(width * fraction, 0f),
+                                    end = Offset(width * fraction, height),
+                                    strokeWidth = 1.dp.toPx()
+                                )
+                            }
+                            
+                            // Decision Boundary line
+                            drawLine(
+                                color = boundaryColor,
+                                start = Offset(0f, 0f),
+                                end = Offset(width, height),
+                                strokeWidth = 2.dp.toPx(),
+                                pathEffect = PathEffect.dashPathEffect(floatArrayOf(12f, 8f), 0f)
+                            )
+                        }
+                        
+                        // Rotated label for boundary
+                        Text(
+                            text = "Garis AI Model",
+                            fontFamily = SoraFontFamily,
+                            fontSize = 8.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = CunnyColors.primary,
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .rotate(45f)
+                                .background(CunnyColors.glassBg, shape = RoundedCornerShape(4.dp))
+                                .border(0.5.dp, CunnyColors.glassBorder, shape = RoundedCornerShape(4.dp))
+                                .padding(horizontal = 4.dp, vertical = 2.dp)
+                        )
+                        
+                        // Apples (Top-Right, red)
+                        GlowingCircle(
+                            color = CunnyColors.accentRed,
+                            modifier = Modifier.align(BiasAlignment(0.5f, -0.6f))
+                        )
+                        GlowingCircle(
+                            color = CunnyColors.accentRed,
+                            modifier = Modifier.align(BiasAlignment(0.8f, -0.3f))
+                        )
+                        GlowingCircle(
+                            color = CunnyColors.accentRed,
+                            modifier = Modifier.align(BiasAlignment(0.3f, -0.8f))
+                        )
+                        
+                        // Oranges (Bottom-Left, orange)
+                        GlowingCircle(
+                            color = CunnyColors.accentOrange,
+                            modifier = Modifier.align(BiasAlignment(-0.5f, 0.6f))
+                        )
+                        GlowingCircle(
+                            color = CunnyColors.accentOrange,
+                            modifier = Modifier.align(BiasAlignment(-0.8f, 0.3f))
+                        )
+                        GlowingCircle(
+                            color = CunnyColors.accentOrange,
+                            modifier = Modifier.align(BiasAlignment(-0.3f, 0.8f))
+                        )
+                        
+                        // Tags
+                        PlotTag(
+                            text = "Apel",
+                            color = CunnyColors.accentRed,
+                            modifier = Modifier.align(BiasAlignment(0.4f, -0.1f))
+                        )
+                        PlotTag(
+                            text = "Jeruk",
+                            color = CunnyColors.accentOrange,
+                            modifier = Modifier.align(BiasAlignment(-0.4f, 0.1f))
+                        )
                     }
                 }
             }
@@ -607,40 +718,147 @@ fun SupervisedVsUnsupervisedVisual() {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(12.dp),
+                        .padding(10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Icon(
-                        imageVector = PhosphorIcons.Regular.CirclesThree,
-                        contentDescription = "Unsupervised Learning",
-                        tint = CunnyColors.accentGreen,
-                        modifier = Modifier.size(36.dp)
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "Unsupervised",
-                        fontFamily = SoraFontFamily,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 14.sp,
-                        color = CunnyColors.textDark
-                    )
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    // Header
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier.fillMaxWidth()
                     ) {
+                        Icon(
+                            imageVector = PhosphorIcons.Regular.CirclesThree,
+                            contentDescription = "Unsupervised Learning",
+                            tint = CunnyColors.accentGreen,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
                         Text(
-                            text = "( 🍎 🍎 )",
-                            fontFamily = DmSansFontFamily,
+                            text = "Unsupervised",
+                            fontFamily = SoraFontFamily,
+                            fontWeight = FontWeight.Bold,
                             fontSize = 12.sp,
                             color = CunnyColors.textDark
                         )
-                        Text(
-                            text = "( 🍊 🍊 )",
-                            fontFamily = DmSansFontFamily,
-                            fontSize = 12.sp,
-                            color = CunnyColors.textDark
+                    }
+                    
+                    // Coordinate grid
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .background(
+                                color = CunnyColors.backgroundWarm.copy(alpha = 0.15f),
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                            .border(
+                                width = 1.dp,
+                                color = CunnyColors.borderLight.copy(alpha = 0.5f),
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                    ) {
+                        val gridLinesColor = CunnyColors.borderLight
+                        val klasterAColor = CunnyColors.primary
+                        val klasterBColor = CunnyColors.accentGreen
+                        
+                        Canvas(modifier = Modifier.fillMaxSize()) {
+                            val width = size.width
+                            val height = size.height
+                            
+                            // Draw grid lines (3x3 grid)
+                            val gridLines = 4
+                            for (i in 1 until gridLines) {
+                                val fraction = i.toFloat() / gridLines
+                                // Horizontal
+                                drawLine(
+                                    color = gridLinesColor.copy(alpha = 0.4f),
+                                    start = Offset(0f, height * fraction),
+                                    end = Offset(width, height * fraction),
+                                    strokeWidth = 1.dp.toPx()
+                                )
+                                // Vertical
+                                drawLine(
+                                    color = gridLinesColor.copy(alpha = 0.4f),
+                                    start = Offset(width * fraction, 0f),
+                                    end = Offset(width * fraction, height),
+                                    strokeWidth = 1.dp.toPx()
+                                )
+                            }
+                            
+                            // Faint circular backdrops
+                            // Cluster A: top-right
+                            drawCircle(
+                                color = klasterAColor.copy(alpha = 0.08f),
+                                center = Offset(width * 0.72f, height * 0.28f),
+                                radius = 30.dp.toPx()
+                            )
+                            drawCircle(
+                                color = klasterAColor.copy(alpha = 0.25f),
+                                center = Offset(width * 0.72f, height * 0.28f),
+                                radius = 30.dp.toPx(),
+                                style = Stroke(
+                                    width = 1.5.dp.toPx(),
+                                    pathEffect = PathEffect.dashPathEffect(floatArrayOf(8f, 6f), 0f)
+                                )
+                            )
+                            
+                            // Cluster B: bottom-left
+                            drawCircle(
+                                color = klasterBColor.copy(alpha = 0.08f),
+                                center = Offset(width * 0.28f, height * 0.72f),
+                                radius = 30.dp.toPx()
+                            )
+                            drawCircle(
+                                color = klasterBColor.copy(alpha = 0.25f),
+                                center = Offset(width * 0.28f, height * 0.72f),
+                                radius = 30.dp.toPx(),
+                                style = Stroke(
+                                    width = 1.5.dp.toPx(),
+                                    pathEffect = PathEffect.dashPathEffect(floatArrayOf(8f, 6f), 0f)
+                                )
+                            )
+                        }
+                        
+                        // Cluster A points (Neutral/primary cluster color)
+                        GlowingCircle(
+                            color = klasterAColor,
+                            modifier = Modifier.align(BiasAlignment(0.5f, -0.6f))
+                        )
+                        GlowingCircle(
+                            color = klasterAColor,
+                            modifier = Modifier.align(BiasAlignment(0.8f, -0.3f))
+                        )
+                        GlowingCircle(
+                            color = klasterAColor,
+                            modifier = Modifier.align(BiasAlignment(0.3f, -0.8f))
+                        )
+                        
+                        // Cluster B points (Neutral/accentGreen cluster color)
+                        GlowingCircle(
+                            color = klasterBColor,
+                            modifier = Modifier.align(BiasAlignment(-0.5f, 0.6f))
+                        )
+                        GlowingCircle(
+                            color = klasterBColor,
+                            modifier = Modifier.align(BiasAlignment(-0.8f, 0.3f))
+                        )
+                        GlowingCircle(
+                            color = klasterBColor,
+                            modifier = Modifier.align(BiasAlignment(-0.3f, 0.8f))
+                        )
+                        
+                        // Tags
+                        PlotTag(
+                            text = "Klaster A",
+                            color = klasterAColor,
+                            modifier = Modifier.align(BiasAlignment(0.4f, -0.1f))
+                        )
+                        PlotTag(
+                            text = "Klaster B",
+                            color = klasterBColor,
+                            modifier = Modifier.align(BiasAlignment(-0.4f, 0.1f))
                         )
                     }
                 }
@@ -650,19 +868,55 @@ fun SupervisedVsUnsupervisedVisual() {
 }
 
 @Composable
-private fun PillLabel(text: String) {
+private fun GlowingCircle(
+    color: Color,
+    modifier: Modifier = Modifier
+) {
     Box(
-        modifier = Modifier
-            .background(CunnyColors.primaryPale, shape = RoundedCornerShape(6.dp))
-            .border(1.dp, CunnyColors.primary.copy(alpha = 0.2f), shape = RoundedCornerShape(6.dp))
-            .padding(horizontal = 6.dp, vertical = 3.dp)
+        modifier = modifier.size(18.dp),
+        contentAlignment = Alignment.Center
     ) {
+        // Outer glowing aura
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color.copy(alpha = 0.2f), shape = CircleShape)
+        )
+        // Inner core
+        Box(
+            modifier = Modifier
+                .size(8.dp)
+                .background(color, shape = CircleShape)
+        )
+    }
+}
+
+@Composable
+private fun PlotTag(
+    text: String,
+    color: Color,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .background(CunnyColors.glassBg, shape = RoundedCornerShape(6.dp))
+            .border(1.dp, CunnyColors.glassBorder, shape = RoundedCornerShape(6.dp))
+            .padding(horizontal = 6.dp, vertical = 2.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // Colored dot indicator
+        Box(
+            modifier = Modifier
+                .size(6.dp)
+                .background(color, shape = CircleShape)
+        )
+        Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = text,
             fontFamily = DmSansFontFamily,
             fontWeight = FontWeight.Bold,
             fontSize = 9.sp,
-            color = CunnyColors.primary
+            color = CunnyColors.textDark
         )
     }
 }
