@@ -24,6 +24,8 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.regular.ArrowLeft
 import com.adamglin.phosphoricons.regular.X
+import com.adamglin.phosphoricons.Bold
+import com.adamglin.phosphoricons.bold.Sparkle
 import com.eleonorez.cunny.ui.compose.components.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -683,7 +685,7 @@ fun LessonScreen(
                                                         val currentIndex = courseLessons.indexOf(slug)
                                                         if (currentIndex != -1 && currentIndex < courseLessons.lastIndex) {
                                                             val nextSlug = courseLessons[currentIndex + 1]
-                                                            toastText = "🎉 Nice work! +10 XP — next lesson unlocked"
+                                                            toastText = "Bagus sekali! +10 XP — pelajaran berikutnya terbuka"
                                                             kotlinx.coroutines.delay(1200)
                                                             onNext(nextSlug, courseSlug)
                                                         } else {
@@ -730,14 +732,25 @@ fun LessonScreen(
                                         )
                                         .padding(horizontal = 20.dp, vertical = 12.dp)
                                 ) {
-                                    Text(
-                                        text = textVal,
-                                        color = Color.White,
-                                        fontFamily = DmSansFontFamily,
-                                        fontWeight = FontWeight.SemiBold,
-                                        fontSize = 14.sp,
-                                        textAlign = TextAlign.Center
-                                    )
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = PhosphorIcons.Bold.Sparkle,
+                                            contentDescription = null,
+                                            tint = CunnyColors.accentYellow,
+                                            modifier = Modifier.size(18.dp)
+                                        )
+                                        Text(
+                                            text = textVal,
+                                            color = Color.White,
+                                            fontFamily = DmSansFontFamily,
+                                            fontSize = 14.sp,
+                                            fontWeight = FontWeight.Medium,
+                                            textAlign = TextAlign.Center
+                                        )
+                                    }
                                 }
                             }
                         }
