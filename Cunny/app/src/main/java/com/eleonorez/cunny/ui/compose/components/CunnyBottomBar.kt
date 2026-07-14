@@ -78,13 +78,13 @@ fun CunnyBottomBar(
                 val tabs = listOf(
                     NavigationTab(
                         route = CunnyRoutes.HOME,
-                        label = "Home",
+                        label = "Beranda",
                         filledIcon = PhosphorIcons.Fill.House,
                         outlinedIcon = PhosphorIcons.Regular.House
                     ),
                     NavigationTab(
                         route = CunnyRoutes.COURSES,
-                        label = "Courses",
+                        label = "Materi",
                         filledIcon = PhosphorIcons.Fill.SquaresFour,
                         outlinedIcon = PhosphorIcons.Regular.SquaresFour
                     ),
@@ -96,7 +96,7 @@ fun CunnyBottomBar(
                     ),
                     NavigationTab(
                         route = CunnyRoutes.SETTINGS,
-                        label = "You",
+                        label = "Profil",
                         filledIcon = PhosphorIcons.Fill.User,
                         outlinedIcon = PhosphorIcons.Regular.User
                     )

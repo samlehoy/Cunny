@@ -97,7 +97,7 @@ fun CoursesScreen(
 
         // Title
         Text(
-            text = "Courses",
+            text = "Materi",
             fontFamily = SoraFontFamily,
             fontWeight = FontWeight.Bold,
             fontSize = 28.sp,
