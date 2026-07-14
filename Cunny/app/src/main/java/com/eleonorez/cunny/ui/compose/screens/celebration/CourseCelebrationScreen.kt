@@ -8,6 +8,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Bold
+import com.adamglin.phosphoricons.bold.Trophy
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -127,7 +131,7 @@ fun CourseCelebrationScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 TypewriterText(
-                    text = "COURSE COMPLETE!",
+                    text = "KURSUS SELESAI!",
                     isPlaying = hasStartedNarration,
                     fontFamily = SoraFontFamily,
                     fontWeight = FontWeight.Bold,
@@ -158,17 +162,17 @@ fun CourseCelebrationScreen(
             ) {
                 StatCelebrationCard(
                     title = "+40 XP",
-                    subtitle = "Earned",
+                    subtitle = "Diperoleh",
                     modifier = Modifier.weight(1f)
                 )
                 StatCelebrationCard(
                     title = "4",
-                    subtitle = "Lessons",
+                    subtitle = "Pelajaran",
                     modifier = Modifier.weight(1f)
                 )
                 StatCelebrationCard(
                     title = "12",
-                    subtitle = "Exercises",
+                    subtitle = "Latihan",
                     modifier = Modifier.weight(1f)
                 )
             }
@@ -182,7 +186,7 @@ fun CourseCelebrationScreen(
                     .wrapContentSize()
                     .padding(bottom = 3.dp)
                     .background(
-                        color = CunnyColors.tactileShadow, // Solid 3D warm plum base shadow
+                        color = CunnyColors.tactileShadow,
                         shape = badgeShape
                     )
             ) {
@@ -194,10 +198,17 @@ fun CourseCelebrationScreen(
                 ) {
                     Row(
                         modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
+                        Icon(
+                            imageVector = PhosphorIcons.Bold.Trophy,
+                            contentDescription = null,
+                            tint = CunnyColors.accentYellow,
+                            modifier = Modifier.size(20.dp)
+                        )
                         Text(
-                            text = "🏆 Badge: AI Explorer",
+                            text = "Lencana: Penjelajah AI",
                             fontFamily = SoraFontFamily,
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp,
@@ -216,11 +227,11 @@ fun CourseCelebrationScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 CunnyPrimaryButton(
-                    text = "View journey",
+                    text = "Lihat perjalanan",
                     onClick = onViewJourney
                 )
                 CunnyOutlineButton(
-                    text = "Explore courses",
+                    text = "Jelajahi kursus",
                     onClick = onExploreCourses
                 )
             }
