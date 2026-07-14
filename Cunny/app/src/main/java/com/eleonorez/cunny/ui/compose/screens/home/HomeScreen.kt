@@ -55,7 +55,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.eleonorez.cunny.data.database.BookmarkRoomDatabase
-import com.eleonorez.cunny.data.repository.HomeRepository
 import com.eleonorez.cunny.di.Injection
 import com.eleonorez.cunny.ui.compose.components.AmbientBackground
 import com.eleonorez.cunny.ui.compose.components.BorderedCard
@@ -90,7 +89,6 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(
         factory = HomeViewModelFactory(
-            HomeRepository(BookmarkRoomDatabase.getDatabase(LocalContext.current).bookmarkDao()),
             Injection.provideProgressRepository(LocalContext.current)
         )
     )

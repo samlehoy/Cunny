@@ -1,7 +1,6 @@
-﻿package com.eleonorez.cunny.data.response
+package com.eleonorez.cunny.data.response
 
 import com.google.gson.annotations.SerializedName
-import com.eleonorez.cunny.data.database.BookmarkModel
 import com.eleonorez.cunny.data.model.SubMaterialModel
 
 data class MaterialsResponse(
@@ -35,31 +34,4 @@ data class LearningMaterial(
 
 	@field:SerializedName("learning_image_path")
 	val learningImagePath: String = ""
-) {
-    fun toBookmarkModel(): BookmarkModel {
-        val subMaterialList = mutableListOf<SubMaterialModel>()
-        val size = this.subMaterials?.size ?: 0
-        for (i in 0 until size) {
-            val slug = this.subMaterials?.getOrNull(i)?.getOrNull(0) ?: ""
-            val bodyList = this.subBodyMaterials?.getOrNull(i)?.filterNotNull() ?: emptyList()
-            val title = bodyList.firstOrNull() ?: ""
-            subMaterialList.add(
-                SubMaterialModel(
-                    id = i,
-                    subMaterial = title,
-                    subBodyMaterial = bodyList,
-                    learningImagePath = this.learningImagePath,
-                    slug = slug,
-                    parentMaterialId = this.id
-                )
-            )
-        }
-        return BookmarkModel(
-            id = this.id,
-            title = this.title,
-            description = this.description,
-            learningImagePath = this.learningImagePath,
-            subMaterials = subMaterialList
-        )
-    }
-}
+)

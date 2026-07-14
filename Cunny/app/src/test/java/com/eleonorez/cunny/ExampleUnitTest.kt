@@ -11,33 +11,6 @@ class ExampleUnitTest {
     }
 
     @Test
-    fun testLearningMaterialToBookmarkModelMapping() {
-        val learningMaterial = LearningMaterial(
-            id = 42,
-            title = "Test Title",
-            description = "Test Desc",
-            subMaterials = listOf(listOf("what-is-ai"), listOf("how-ai-learns")),
-            subBodyMaterials = listOf(listOf("What is AI?"), listOf("How AI Learns")),
-            learningImagePath = "http://example.com/image.png"
-        )
-
-        val bookmark = learningMaterial.toBookmarkModel()
-        assertEquals(42, bookmark.id)
-        assertEquals("Test Title", bookmark.title)
-        assertEquals("Test Desc", bookmark.description)
-        assertEquals("http://example.com/image.png", bookmark.learningImagePath)
-        assertEquals(2, bookmark.subMaterials.size)
-
-        val firstSub = bookmark.subMaterials[0]
-        assertEquals("what-is-ai", firstSub.slug)
-        assertEquals("What is AI?", firstSub.subMaterial)
-
-        val secondSub = bookmark.subMaterials[1]
-        assertEquals("how-ai-learns", secondSub.slug)
-        assertEquals("How AI Learns", secondSub.subMaterial)
-    }
-
-    @Test
     fun testNeuronSandboxLogic() {
         val wRed = 3
         val wSpots = 3

@@ -38,7 +38,6 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SettingsScreen(
-    onBookmarksClick: () -> Unit,
     onProfile: () -> Unit,
     onLogout: () -> Unit,
     modifier: Modifier = Modifier
@@ -74,27 +73,6 @@ fun SettingsScreen(
             icon = {
                 Icon(
                     imageVector = PhosphorIcons.Regular.UserCircle,
-                    contentDescription = null,
-                    tint = CunnyColors.textDark,
-                    modifier = Modifier.size(24.dp)
-                )
-            },
-            trailing = {
-                Icon(
-                    imageVector = PhosphorIcons.Regular.CaretRight,
-                    contentDescription = null,
-                    tint = CunnyColors.textSubtle,
-                    modifier = Modifier.size(20.dp)
-                )
-            }
-        )
-
-        SettingsRow(
-            label = "Saved lessons",
-            onClick = onBookmarksClick,
-            icon = {
-                Icon(
-                    imageVector = PhosphorIcons.Regular.BookmarkSimple,
                     contentDescription = null,
                     tint = CunnyColors.textDark,
                     modifier = Modifier.size(24.dp)
@@ -300,5 +278,5 @@ fun SettingsScreen(
 @Preview(widthDp = 393, heightDp = 852)
 @Composable
 private fun SettingsPreview() {
-    CunnyTheme { SettingsScreen(onBookmarksClick = {}, onProfile = {}, onLogout = {}) }
+    CunnyTheme { SettingsScreen(onProfile = {}, onLogout = {}) }
 }

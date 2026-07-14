@@ -53,7 +53,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.eleonorez.cunny.R
 import com.eleonorez.cunny.data.database.BookmarkRoomDatabase
 import com.eleonorez.cunny.data.database.UserProgressEntity
-import com.eleonorez.cunny.data.repository.HomeRepository
 import com.eleonorez.cunny.di.Injection
 import com.eleonorez.cunny.ui.compose.components.StaticAmbientBackground
 import com.eleonorez.cunny.ui.compose.components.CunnyPrimaryButton
@@ -79,7 +78,6 @@ fun CourseDetailScreen(
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel = viewModel(
         factory = HomeViewModelFactory(
-            HomeRepository(BookmarkRoomDatabase.getDatabase(LocalContext.current).bookmarkDao()),
             Injection.provideProgressRepository(LocalContext.current)
         )
     ),

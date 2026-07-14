@@ -26,7 +26,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.eleonorez.cunny.ui.compose.components.CunnyBottomBar
-import com.eleonorez.cunny.ui.compose.screens.bookmarks.BookmarksScreen
 import com.eleonorez.cunny.ui.compose.screens.course.CourseDetailScreen
 import com.eleonorez.cunny.ui.compose.screens.courses.CoursesScreen
 import com.eleonorez.cunny.ui.compose.screens.home.HomeScreen
@@ -210,28 +209,8 @@ fun CunnyRootApp(
                         }
                     )
                 }
-                composable(CunnyRoutes.BOOKMARKS) {
-                    BookmarksScreen(
-                        onBack = { navController.popBackStack() },
-                        onBookmarkClick = { title ->
-                            val route = when {
-                                title.contains("Apa itu AI", ignoreCase = true) || title.contains("What is AI", ignoreCase = true) -> {
-                                    CunnyRoutes.lessonIntro("what-is-ai")
-                                }
-                                title.contains("Belajar", ignoreCase = true) || title.contains("Learn", ignoreCase = true) -> {
-                                    CunnyRoutes.lessonIntro("how-ai-learns")
-                                }
-                                else -> {
-                                    CunnyRoutes.courseDetail("intro-to-ai")
-                                }
-                            }
-                            navController.navigate(route)
-                        }
-                    )
-                }
                 composable(CunnyRoutes.SETTINGS) {
                     SettingsScreen(
-                        onBookmarksClick = { navController.navigate(CunnyRoutes.BOOKMARKS) },
                         onProfile = { navController.navigate(CunnyRoutes.PROFILE) },
                         onLogout = {
                             Firebase.auth.signOut()

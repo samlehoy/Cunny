@@ -16,7 +16,6 @@ object CunnyRoutes {
 
     const val HOME = "home"
     const val COURSES = "courses"
-    const val BOOKMARKS = "bookmarks"
     const val SETTINGS = "settings"
 
     const val COURSE_DETAIL = "course/{slug}"

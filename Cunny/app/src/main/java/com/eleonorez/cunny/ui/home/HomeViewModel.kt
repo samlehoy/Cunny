@@ -4,13 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.eleonorez.cunny.data.database.BookmarkModel
 import com.eleonorez.cunny.data.database.UserProgressEntity
 import com.eleonorez.cunny.data.database.LessonCompletionEntity
 import com.eleonorez.cunny.data.database.BadgeEntity
 import com.eleonorez.cunny.data.retrofit.ApiConfig
 import com.google.firebase.auth.FirebaseAuth
-import com.eleonorez.cunny.data.repository.HomeRepository
 import com.eleonorez.cunny.data.repository.ProgressRepository
 import com.eleonorez.cunny.data.repository.CourseRepository
 import com.eleonorez.cunny.data.response.CourseItem
@@ -48,7 +46,6 @@ data class LessonWithStatus(
 enum class LessonStatus { DONE, ACTIVE, LOCKED }
 
 class HomeViewModel(
-    private val repository: HomeRepository,
     private val progressRepository: ProgressRepository,
     private val courseRepository: CourseRepository
 ) : ViewModel() {
@@ -56,9 +53,6 @@ class HomeViewModel(
     // LiveData untuk loading state
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
-
-    // LiveData untuk bookmarks
-    val bookmarks: LiveData<List<BookmarkModel>> = repository.bookmarks
 
     val userProgress: Flow<UserProgressEntity?> = progressRepository.userProgress
     val lessonCompletions = progressRepository.lessonCompletions
@@ -155,7 +149,6 @@ class HomeViewModel(
     )
 
     init {
-        fetchBookmarks()
         loadCoursesAndJourneys()
         syncRemoteData()
     }
@@ -228,14 +221,6 @@ class HomeViewModel(
             } catch (e: Exception) {
                 android.util.Log.e("StartupSync", "❌ Startup sync FAILED: ${e.javaClass.simpleName}: ${e.message}", e)
             }
-        }
-    }
-
-    private fun fetchBookmarks() {
-        _isLoading.value = true
-        viewModelScope.launch {
-            // Simulate data fetching if needed
-            _isLoading.postValue(false)
         }
     }
 

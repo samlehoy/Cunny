@@ -6,16 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.eleonorez.cunny.data.database.BookmarkDao
-import com.eleonorez.cunny.data.database.BookmarkModel
 
 @Database(
-    entities = [BookmarkModel::class, UserProgressEntity::class, LessonCompletionEntity::class, BadgeEntity::class],
+    entities = [UserProgressEntity::class, LessonCompletionEntity::class, BadgeEntity::class],
     version = 4
 )
 abstract class BookmarkRoomDatabase : RoomDatabase() {
 
-    abstract fun bookmarkDao(): BookmarkDao
     abstract fun gamificationDao(): GamificationDao
 
     companion object {
@@ -45,8 +42,6 @@ abstract class BookmarkRoomDatabase : RoomDatabase() {
                         .addCallback(object : RoomDatabase.Callback() {
                             override fun onCreate(db: SupportSQLiteDatabase) {
                                 super.onCreate(db)
-                                db.execSQL("INSERT OR IGNORE INTO BookmarkModel (id, title, description, learning_image_path, sub_materials) VALUES (1, 'Apa itu AI?', 'Introduction to AI', '', '[]')")
-                                db.execSQL("INSERT OR IGNORE INTO BookmarkModel (id, title, description, learning_image_path, sub_materials) VALUES (2, 'AI Belajar dari Contoh', 'Introduction to AI', '', '[]')")
                             }
                         })
                         .build()
