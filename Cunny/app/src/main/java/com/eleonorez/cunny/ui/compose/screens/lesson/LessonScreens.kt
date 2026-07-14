@@ -609,96 +609,102 @@ fun LessonScreen(
                                 }
                             }
 
-                            // Bottom glass footer with equal-width actions matching HTML
+                            // Bottom glass footer with equal-width actions matching HTML (.lesson-footer)
                             val isBlockCompleted = viewModel.completedBlocks[stepIndex] ?: (currentBlock?.type != "quiz" && currentBlock?.type != "widget")
                             val isLastBlock = stepIndex == blocks.lastIndex
 
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .navigationBarsPadding()
-                                    .padding(start = 24.dp, end = 24.dp, top = 20.dp, bottom = 24.dp),
-                                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                                verticalAlignment = Alignment.CenterVertically
+                            val footerShape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+                            GlassSurface(
+                                shape = footerShape,
+                                modifier = Modifier.fillMaxWidth()
                             ) {
-                                CunnyOutlineButton(
-                                    text = "Back",
-                                    onClick = {
-                                        if (stepIndex > 0) {
-                                            stepIndex -= 1
-                                        } else {
-                                            onBack()
-                                        }
-                                    },
-                                    modifier = Modifier.weight(1f)
-                                )
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .navigationBarsPadding()
+                                        .padding(start = 24.dp, end = 24.dp, top = 20.dp, bottom = 24.dp),
+                                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    CunnyOutlineButton(
+                                        text = "Back",
+                                        onClick = {
+                                            if (stepIndex > 0) {
+                                                stepIndex -= 1
+                                            } else {
+                                                onBack()
+                                            }
+                                        },
+                                        modifier = Modifier.weight(1f)
+                                    )
 
-                                val continueBtnText = when {
-                                    !isBlockCompleted -> {
-                                        val wType = (currentBlock as? WidgetBlock)?.widgetType
-                                        when (wType) {
-                                            "taxonomy_concentric_circles" -> "Place labels to continue"
-                                            "sorting_game" -> "Complete game to continue"
-                                            "train_your_own_ai" -> "Train model to continue"
-                                            "bias_game" -> "Train and test to continue"
-                                            "neuron_sandbox" -> "Align neuron to continue"
-                                            "next_word_predictor" -> "Complete sentence to continue"
-                                            "recommendation_engine" -> "Place recommendations to continue"
-                                            "rule_vs_learning" -> "Run simulation to continue"
-                                            "sensory_sandbox" -> "Activate sensors to continue"
-                                            "reward_trainer" -> "Achieve success to continue"
-                                            "diffusion_sandbox" -> "Denoise image to continue"
-                                            "privacy_auditor" -> "Audit permissions to continue"
-                                            "spot_the_fake" -> "Spot the fake face to continue"
-                                            "pixel_zoom" -> "Inspect pixels to continue"
-                                            "grocery_sorter" -> "Sort grocery items to continue"
-                                            "data_cleaner" -> "Clean dirty data to continue"
-                                            else -> {
-                                                if (currentBlock?.type == "quiz") "Answer to continue"
-                                                else "Complete activity to continue"
+                                    val continueBtnText = when {
+                                        !isBlockCompleted -> {
+                                            val wType = (currentBlock as? WidgetBlock)?.widgetType
+                                            when (wType) {
+                                                "taxonomy_concentric_circles" -> "Place labels to continue"
+                                                "sorting_game" -> "Complete game to continue"
+                                                "train_your_own_ai" -> "Train model to continue"
+                                                "bias_game" -> "Train and test to continue"
+                                                "neuron_sandbox" -> "Align neuron to continue"
+                                                "next_word_predictor" -> "Complete sentence to continue"
+                                                "recommendation_engine" -> "Place recommendations to continue"
+                                                "rule_vs_learning" -> "Run simulation to continue"
+                                                "sensory_sandbox" -> "Activate sensors to continue"
+                                                "reward_trainer" -> "Achieve success to continue"
+                                                "diffusion_sandbox" -> "Denoise image to continue"
+                                                "privacy_auditor" -> "Audit permissions to continue"
+                                                "spot_the_fake" -> "Spot the fake face to continue"
+                                                "pixel_zoom" -> "Inspect pixels to continue"
+                                                "grocery_sorter" -> "Sort grocery items to continue"
+                                                "data_cleaner" -> "Clean dirty data to continue"
+                                                else -> {
+                                                    if (currentBlock?.type == "quiz") "Answer to continue"
+                                                    else "Complete activity to continue"
+                                                }
                                             }
                                         }
+                                        isLastBlock -> "Finish lesson"
+                                        else -> "Continue"
                                     }
-                                    isLastBlock -> "Finish lesson"
-                                    else -> "Continue"
-                                }
 
-                                CunnyPrimaryButton(
-                                    text = continueBtnText,
-                                    enabled = isBlockCompleted,
-                                    onClick = {
-                                        if (isBlockCompleted) {
-                                            if (isLastBlock) {
-                                                scope.launch {
-                                                    SoundSynthesizer.play(context, SoundSynthesizer.SoundType.SUCCESS)
-                                                    val gm = GamificationManager(context)
-                                                    gm.completeLesson(slug, 100)
-                                                    gm.checkBadgeUnlock("lesson-complete")
-                                                    
-                                                    val currentIndex = courseLessons.indexOf(slug)
-                                                    if (currentIndex != -1 && currentIndex < courseLessons.lastIndex) {
-                                                        val nextSlug = courseLessons[currentIndex + 1]
-                                                        toastText = "🎉 Nice work! +10 XP — next lesson unlocked"
-                                                        kotlinx.coroutines.delay(1200)
-                                                        onNext(nextSlug, courseSlug)
-                                                    } else {
-                                                        onNext(null, courseSlug)
+                                    CunnyPrimaryButton(
+                                        text = continueBtnText,
+                                        enabled = isBlockCompleted,
+                                        onClick = {
+                                            if (isBlockCompleted) {
+                                                if (isLastBlock) {
+                                                    scope.launch {
+                                                        SoundSynthesizer.play(context, SoundSynthesizer.SoundType.SUCCESS)
+                                                        val gm = GamificationManager(context)
+                                                        gm.completeLesson(slug, 100)
+                                                        gm.checkBadgeUnlock("lesson-complete")
+                                                        
+                                                        val currentIndex = courseLessons.indexOf(slug)
+                                                        if (currentIndex != -1 && currentIndex < courseLessons.lastIndex) {
+                                                            val nextSlug = courseLessons[currentIndex + 1]
+                                                            toastText = "🎉 Nice work! +10 XP — next lesson unlocked"
+                                                            kotlinx.coroutines.delay(1200)
+                                                            onNext(nextSlug, courseSlug)
+                                                        } else {
+                                                            onNext(null, courseSlug)
+                                                        }
                                                     }
+                                                } else {
+                                                    stepIndex += 1
                                                 }
                                             } else {
-                                                stepIndex += 1
+                                                val msg = if (currentBlock?.type == "quiz") {
+                                                    "Please select the correct answer first!"
+                                                } else {
+                                                    "Please complete the scanner first!"
+                                                }
+                                                CunnyToast.show(msg, CunnyToastType.INFO)
                                             }
-                                        } else {
-                                            val msg = if (currentBlock?.type == "quiz") {
-                                                "Please select the correct answer first!"
-                                            } else {
-                                                "Please complete the scanner first!"
-                                            }
-                                            CunnyToast.show(msg, CunnyToastType.INFO)
-                                        }
-                                    },
-                                    modifier = Modifier.weight(1f)
-                                )
+                                        },
+                                        modifier = Modifier.weight(1f)
+                                    )
+                                }
                             }
                         }
 

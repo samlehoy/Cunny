@@ -14,12 +14,29 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.material3.Icon
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.regular.ChartBar
+import com.adamglin.phosphoricons.regular.Sliders
+import com.adamglin.phosphoricons.regular.Image
+import com.adamglin.phosphoricons.regular.EnvelopeSimple
+import com.adamglin.phosphoricons.regular.Database
+import com.adamglin.phosphoricons.regular.Cube
+import androidx.compose.ui.draw.shadow
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.Spring
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.clickable
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import com.eleonorez.cunny.helper.SoundSynthesizer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,7 +44,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -49,6 +65,7 @@ fun SortingGameWidget(
     lang: String = "id",
     onWidgetCompleted: (Boolean) -> Unit
 ) {
+    val context = LocalContext.current
     val items = remember(lang) {
         if (lang == "en") {
             listOf(
@@ -74,6 +91,7 @@ fun SortingGameWidget(
     var currentIndex by remember { mutableStateOf(0) }
     var gameCompleted by remember { mutableStateOf(false) }
     var showIncorrectText by remember { mutableStateOf(false) }
+    var selectedButtonIndex by remember { mutableStateOf<Int?>(null) }
 
     val currentItem = items.getOrNull(currentIndex)
 
@@ -85,6 +103,11 @@ fun SortingGameWidget(
             .padding(bottom = 4.dp)
             .background(
                 color = CunnyColors.tactileShadow, // Solid 3D warm plum base shadow
+                shape = outerShape
+            )
+            .border(
+                width = 1.5.dp,
+                color = CunnyColors.border,
                 shape = outerShape
             )
     ) {
@@ -99,11 +122,12 @@ fun SortingGameWidget(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
-                    imageVector = PhosphorIcons.Regular.ChartBar,
+                    imageVector = PhosphorIcons.Regular.Sliders,
                     contentDescription = null,
                     tint = CunnyColors.primary,
-                    modifier = Modifier.size(40.dp).padding(bottom = 8.dp)
+                    modifier = Modifier.size(24.dp)
                 )
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = if (lang == "en") "Sorting Game" else "Game Pengelompokan",
                     fontFamily = SoraFontFamily,
@@ -126,33 +150,63 @@ fun SortingGameWidget(
                 Spacer(modifier = Modifier.height(18.dp))
 
                 if (!gameCompleted && currentItem != null) {
+                    val contentIcon = remember(currentItem.name) {
+                        val nameLower = currentItem.name.lowercase()
+                        when {
+                            nameLower.contains("foto") || nameLower.contains("photo") || nameLower.contains("hewan") || nameLower.contains("animal") -> PhosphorIcons.Regular.Image
+                            nameLower.contains("email") || nameLower.contains("inbox") || nameLower.contains("spam") -> PhosphorIcons.Regular.EnvelopeSimple
+                            nameLower.contains("transaksi") || nameLower.contains("riwayat") || nameLower.contains("ciri") || nameLower.contains("features") || nameLower.contains("history") || nameLower.contains("purchase") -> PhosphorIcons.Regular.Database
+                            else -> PhosphorIcons.Regular.Cube
+                        }
+                    }
+
                     val activeShape = RoundedCornerShape(CunnyDimens.radiusMd)
                     Box(
                         modifier = Modifier
-                             .fillMaxWidth()
-                             .padding(bottom = 19.dp)
-                             .background(
-                                 color = CunnyColors.tactileShadow, // Solid 3D warm plum base shadow
-                                 shape = activeShape
-                             )
+                            .fillMaxWidth()
+                            .padding(bottom = 19.dp)
+                            .background(
+                                color = CunnyColors.tactileShadow,
+                                shape = activeShape
+                            )
                     ) {
-                        GlassSurface(
-                            shape = activeShape,
+                        Box(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .offset(y = (-3).dp)
+                                .background(
+                                    color = CunnyColors.backgroundSoft,
+                                    shape = activeShape
+                                )
+                                .border(
+                                    width = 1.5.dp,
+                                    color = CunnyColors.border,
+                                    shape = activeShape
+                                )
                         ) {
-                            Text(
-                                text = currentItem.name,
-                                fontFamily = SoraFontFamily,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 15.sp,
-                                color = CunnyColors.textDark,
-                                textAlign = TextAlign.Center,
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(16.dp)
-                            )
+                                    .padding(horizontal = 16.dp, vertical = 12.dp)
+                            ) {
+                                Icon(
+                                    imageVector = contentIcon,
+                                    contentDescription = null,
+                                    tint = CunnyColors.primary,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                                Spacer(modifier = Modifier.width(10.dp))
+                                Text(
+                                    text = currentItem.name,
+                                    fontFamily = SoraFontFamily,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 14.sp,
+                                    color = CunnyColors.textDark,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier.weight(1f)
+                                )
+                            }
                         }
                     }
 
@@ -171,40 +225,125 @@ fun SortingGameWidget(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        CunnyOutlineButton(
-                            text = "Supervised",
-                            onClick = {
-                                if (currentItem.isSupervised) {
-                                    showIncorrectText = false
-                                    if (currentIndex == items.lastIndex) {
-                                        gameCompleted = true
-                                        onWidgetCompleted(true)
-                                    } else {
-                                        currentIndex += 1
-                                    }
-                                } else {
-                                    showIncorrectText = true
-                                }
-                            },
-                            modifier = Modifier.weight(1f)
+                        // Supervised Button (index 0)
+                        val interactionSourceSup = remember { MutableInteractionSource() }
+                        val isPressedSup by interactionSourceSup.collectIsPressedAsState()
+                        val offsetYSup by animateDpAsState(
+                            targetValue = if (isPressedSup) 0.dp else (-4).dp,
+                            animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+                            label = "supervisedOffset"
                         )
-                        CunnyOutlineButton(
-                            text = "Unsupervised",
-                            onClick = {
-                                if (!currentItem.isSupervised) {
-                                    showIncorrectText = false
-                                    if (currentIndex == items.lastIndex) {
-                                        gameCompleted = true
-                                        onWidgetCompleted(true)
-                                    } else {
-                                        currentIndex += 1
-                                    }
-                                } else {
-                                    showIncorrectText = true
-                                }
-                            },
-                            modifier = Modifier.weight(1f)
+
+                        val isIncorrectSup = showIncorrectText && selectedButtonIndex == 0
+                        val buttonBgSup = if (isIncorrectSup) CunnyColors.accentRed.copy(alpha = 0.24f) else CunnyColors.glassBg
+                        val borderColSup = if (isIncorrectSup) CunnyColors.accentRed else CunnyColors.glassBorder
+
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .background(CunnyColors.tactileShadow, shape = RoundedCornerShape(CunnyDimens.radiusFull))
+                        ) {
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .offset(y = offsetYSup)
+                                    .clip(RoundedCornerShape(CunnyDimens.radiusFull))
+                                    .background(buttonBgSup)
+                                    .border(1.5.dp, borderColSup, RoundedCornerShape(CunnyDimens.radiusFull))
+                                    .clickable(
+                                        interactionSource = interactionSourceSup,
+                                        indication = null,
+                                        onClick = {
+                                            selectedButtonIndex = 0
+                                            if (currentItem.isSupervised) {
+                                                SoundSynthesizer.play(context, SoundSynthesizer.SoundType.CORRECT)
+                                                showIncorrectText = false
+                                                if (currentIndex == items.lastIndex) {
+                                                    gameCompleted = true
+                                                    onWidgetCompleted(true)
+                                                } else {
+                                                    currentIndex += 1
+                                                    selectedButtonIndex = null
+                                                }
+                                            } else {
+                                                SoundSynthesizer.play(context, SoundSynthesizer.SoundType.INCORRECT)
+                                                showIncorrectText = true
+                                            }
+                                        }
+                                    )
+                                    .padding(vertical = 12.dp)
+                            ) {
+                                Text(
+                                    text = "Supervised",
+                                    fontFamily = SoraFontFamily,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 14.sp,
+                                    color = CunnyColors.textDark,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                        }
+
+                        // Unsupervised Button (index 1)
+                        val interactionSourceUnsup = remember { MutableInteractionSource() }
+                        val isPressedUnsup by interactionSourceUnsup.collectIsPressedAsState()
+                        val offsetYUnsup by animateDpAsState(
+                            targetValue = if (isPressedUnsup) 0.dp else (-4).dp,
+                            animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+                            label = "unsupervisedOffset"
                         )
+
+                        val isIncorrectUnsup = showIncorrectText && selectedButtonIndex == 1
+                        val buttonBgUnsup = if (isIncorrectUnsup) CunnyColors.accentRed.copy(alpha = 0.24f) else CunnyColors.glassBg
+                        val borderColUnsup = if (isIncorrectUnsup) CunnyColors.accentRed else CunnyColors.glassBorder
+
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .background(CunnyColors.tactileShadow, shape = RoundedCornerShape(CunnyDimens.radiusFull))
+                        ) {
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .offset(y = offsetYUnsup)
+                                    .clip(RoundedCornerShape(CunnyDimens.radiusFull))
+                                    .background(buttonBgUnsup)
+                                    .border(1.5.dp, borderColUnsup, RoundedCornerShape(CunnyDimens.radiusFull))
+                                    .clickable(
+                                        interactionSource = interactionSourceUnsup,
+                                        indication = null,
+                                        onClick = {
+                                            selectedButtonIndex = 1
+                                            if (!currentItem.isSupervised) {
+                                                SoundSynthesizer.play(context, SoundSynthesizer.SoundType.CORRECT)
+                                                showIncorrectText = false
+                                                if (currentIndex == items.lastIndex) {
+                                                    gameCompleted = true
+                                                    onWidgetCompleted(true)
+                                                } else {
+                                                    currentIndex += 1
+                                                    selectedButtonIndex = null
+                                                }
+                                            } else {
+                                                SoundSynthesizer.play(context, SoundSynthesizer.SoundType.INCORRECT)
+                                                showIncorrectText = true
+                                            }
+                                        }
+                                    )
+                                    .padding(vertical = 12.dp)
+                            ) {
+                                Text(
+                                    text = "Unsupervised",
+                                    fontFamily = SoraFontFamily,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 14.sp,
+                                    color = CunnyColors.textDark,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                        }
                     }
                 } else {
                     val successShape = RoundedCornerShape(CunnyDimens.radiusMd)
