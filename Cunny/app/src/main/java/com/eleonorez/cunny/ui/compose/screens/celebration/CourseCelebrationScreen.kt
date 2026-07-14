@@ -1,6 +1,9 @@
 package com.eleonorez.cunny.ui.compose.screens.celebration
 
 import androidx.compose.animation.core.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -64,6 +67,18 @@ fun CourseCelebrationScreen(
     val confettiComposition by rememberLottieComposition(LottieCompositionSpec.Asset("confetti.json"))
     var confettiTrigger by remember { mutableStateOf(0) }
     val mascotScale = remember { Animatable(1f) }
+    var showCard1 by remember { mutableStateOf(false) }
+    var showCard2 by remember { mutableStateOf(false) }
+    var showCard3 by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        delay(200)
+        showCard1 = true
+        delay(150)
+        showCard2 = true
+        delay(150)
+        showCard3 = true
+    }
 
     // Narration
     val narrationManager = remember { NarrationManager(context) }
@@ -185,21 +200,39 @@ fun CourseCelebrationScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                StatCelebrationCard(
-                    title = "+40 XP",
-                    subtitle = "Diperoleh",
+                AnimatedVisibility(
+                    visible = showCard1,
+                    enter = fadeIn(animationSpec = tween(500)) + slideInVertically(initialOffsetY = { it / 2 }, animationSpec = tween(500)),
                     modifier = Modifier.weight(1f)
-                )
-                StatCelebrationCard(
-                    title = "4",
-                    subtitle = "Pelajaran",
+                ) {
+                    StatCelebrationCard(
+                        title = "+40 XP",
+                        subtitle = "Diperoleh",
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+                AnimatedVisibility(
+                    visible = showCard2,
+                    enter = fadeIn(animationSpec = tween(500)) + slideInVertically(initialOffsetY = { it / 2 }, animationSpec = tween(500)),
                     modifier = Modifier.weight(1f)
-                )
-                StatCelebrationCard(
-                    title = "12",
-                    subtitle = "Latihan",
+                ) {
+                    StatCelebrationCard(
+                        title = "4",
+                        subtitle = "Pelajaran",
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+                AnimatedVisibility(
+                    visible = showCard3,
+                    enter = fadeIn(animationSpec = tween(500)) + slideInVertically(initialOffsetY = { it / 2 }, animationSpec = tween(500)),
                     modifier = Modifier.weight(1f)
-                )
+                ) {
+                    StatCelebrationCard(
+                        title = "12",
+                        subtitle = "Latihan",
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(20.dp))
