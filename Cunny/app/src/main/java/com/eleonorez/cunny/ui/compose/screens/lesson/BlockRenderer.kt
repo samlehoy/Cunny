@@ -12,6 +12,8 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -63,11 +65,14 @@ import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.regular.Lightbulb
 import com.adamglin.phosphoricons.regular.Check
 import com.adamglin.phosphoricons.regular.Camera
+import com.adamglin.phosphoricons.regular.ChalkboardTeacher
+import com.adamglin.phosphoricons.regular.CirclesThree
 import com.eleonorez.cunny.ui.compose.screens.lesson.widgets.*
 
 @Composable
 fun BlockRenderer(
     block: Block,
+    lang: String = "id",
     onBlockCompleted: (Boolean) -> Unit,
     onOpenWidget: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -78,7 +83,7 @@ fun BlockRenderer(
             is ImageBlock -> ImageBlockRenderer(block = block)
             is CalloutBlock -> CalloutBlockRenderer(block = block)
             is QuizBlock -> QuizBlockRenderer(block = block, onQuizCorrect = onBlockCompleted)
-            is WidgetBlock -> WidgetBlockRenderer(block = block, onOpenWidget = onOpenWidget, onWidgetCompleted = onBlockCompleted)
+            is WidgetBlock -> WidgetBlockRenderer(block = block, lang = lang, onOpenWidget = onOpenWidget, onWidgetCompleted = onBlockCompleted)
             is VideoBlock -> Spacer(Modifier.size(0.dp))
         }
     }
@@ -482,6 +487,14 @@ private fun NumberedStepCards(items: List<NumberedItem>) {
 
 @Composable
 fun ImageBlockRenderer(block: ImageBlock) {
+    val imageRes = remember(block.imageUrl) {
+        if (block.imageUrl == "custom://supervised-vs-unsupervised") {
+            com.eleonorez.cunny.R.drawable.il_lesson_supervised_vs_unsupervised
+        } else {
+            null
+        }
+    }
+
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -492,12 +505,23 @@ fun ImageBlockRenderer(block: ImageBlock) {
                 .fillMaxWidth()
                 .height(180.dp)
         ) {
-            Icon(
-                imageVector = PhosphorIcons.Regular.Camera,
-                contentDescription = "Image placeholder",
-                tint = CunnyColors.textSubtle,
-                modifier = Modifier.align(Alignment.Center).size(48.dp)
-            )
+            if (imageRes != null) {
+                androidx.compose.foundation.Image(
+                    painter = androidx.compose.ui.res.painterResource(id = imageRes),
+                    contentDescription = block.caption ?: "Lesson illustration",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(CunnyDimens.radiusMd)),
+                    contentScale = androidx.compose.ui.layout.ContentScale.Fit
+                )
+            } else {
+                Icon(
+                    imageVector = PhosphorIcons.Regular.Camera,
+                    contentDescription = "Image placeholder",
+                    tint = CunnyColors.textSubtle,
+                    modifier = Modifier.align(Alignment.Center).size(48.dp)
+                )
+            }
         }
         if (block.caption != null) {
             Spacer(modifier = Modifier.height(8.dp))
@@ -512,6 +536,7 @@ fun ImageBlockRenderer(block: ImageBlock) {
         }
     }
 }
+
 
 @Composable
 fun CalloutBlockRenderer(block: CalloutBlock) {
@@ -907,11 +932,12 @@ fun QuizBlockRenderer(
 @Composable
 fun WidgetBlockRenderer(
     block: WidgetBlock,
+    lang: String = "id",
     onOpenWidget: (String) -> Unit,
     onWidgetCompleted: (Boolean) -> Unit
 ) {
     when (block.widgetType) {
-        "sorting_game" -> SortingGameWidget(onWidgetCompleted)
+        "sorting_game" -> SortingGameWidget(lang = lang, onWidgetCompleted = onWidgetCompleted)
         "train_your_own_ai" -> TrainAiWidget(block, onWidgetCompleted)
         "prompt_evaluator" -> PromptEvaluatorWidget(block, onWidgetCompleted)
         "bias_game" -> BiasGameWidget(block, onWidgetCompleted)

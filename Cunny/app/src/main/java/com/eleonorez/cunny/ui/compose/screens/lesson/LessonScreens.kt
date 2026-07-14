@@ -340,6 +340,7 @@ fun LessonIntroScreen(
                                     "ai-vs-traditional-program" -> com.eleonorez.cunny.R.drawable.il_lesson_ai_vs_traditional_program
                                     "ai-around-us" -> com.eleonorez.cunny.R.drawable.il_lesson_ai_around_us
                                     "ai-sensors-perception" -> com.eleonorez.cunny.R.drawable.il_lesson_ai_sensors_perception
+                                    "supervised-vs-unsupervised" -> com.eleonorez.cunny.R.drawable.il_lesson_supervised_vs_unsupervised
                                     else -> null
                                 }
 
@@ -597,6 +598,7 @@ fun LessonScreen(
                                 if (currentBlock != null) {
                                     BlockRenderer(
                                         block = currentBlock,
+                                        lang = lesson.language,
                                         onBlockCompleted = { completed ->
                                             viewModel.setBlockCompleted(stepIndex, completed)
                                         },
