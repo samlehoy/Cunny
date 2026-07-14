@@ -212,7 +212,11 @@ fun HomeScreen(
                         ),
                         exit = fadeOut()
                     ) {
-                    Column {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                    ) {
                         // ═══════════════════════════════════════
                         // CAROUSEL: Course/Material Cards
                         // ═══════════════════════════════════════
@@ -352,7 +356,7 @@ fun HomeScreen(
                                 }
                             )
 
-                            Spacer(Modifier.height(80.dp))
+                            Spacer(Modifier.height(100.dp))
                         }
                     } // close Column
                     } // close AnimatedVisibility
