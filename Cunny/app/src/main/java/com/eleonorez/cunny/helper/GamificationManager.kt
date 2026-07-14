@@ -178,10 +178,14 @@ class GamificationManager(context: Context) {
         val fmt = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val today = fmt.format(Date())
         if (current.lastActiveDate != today) {
-            val updated = current.copy(energy = 5, lastRefillTime = 0L)
+            val updated = if (current.energy < 5) {
+                current.copy(energy = 5, lastRefillTime = 0L, lastActiveDate = today)
+            } else {
+                current.copy(lastActiveDate = today)
+            }
             dao.upsertProgress(updated)
             syncGamificationToServer(updated)
-            android.util.Log.d("GamificationSync", "☀️ Daily reset: energy refilled to 5")
+            android.util.Log.d("GamificationSync", "☀️ Daily reset: energy update. energy=${updated.energy}")
         }
     }
 

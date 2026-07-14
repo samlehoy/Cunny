@@ -174,9 +174,6 @@ class HomeViewModel(
             }
 
             try {
-                // Trigger local energy refill/reset checks first
-                progressRepository.checkEnergyRefill()
-
                 val apiService = ApiConfig.getApiService()
                 android.util.Log.d("StartupSync", "▶ Startup sync START")
                 
@@ -195,6 +192,7 @@ class HomeViewModel(
                         lastActiveDate = remoteUser.lastActiveDate ?: localProgress?.lastActiveDate ?: ""
                     )
                     progressRepository.upsertProgress(mergedProgress)
+                    progressRepository.checkEnergyRefill()
                     android.util.Log.d("StartupSync", "✅ Merged: xp=${mergedProgress.xp}, level=${mergedProgress.level}, streak=${mergedProgress.streak}")
                 }
 
