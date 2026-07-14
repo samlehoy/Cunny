@@ -9,7 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(
     entities = [UserProgressEntity::class, LessonCompletionEntity::class, BadgeEntity::class],
-    version = 4
+    version = 5
 )
 abstract class BookmarkRoomDatabase : RoomDatabase() {
 
@@ -39,6 +39,7 @@ abstract class BookmarkRoomDatabase : RoomDatabase() {
                         BookmarkRoomDatabase::class.java, "bookmark_database"
                     )
                         .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+                        .fallbackToDestructiveMigration()
                         .addCallback(object : RoomDatabase.Callback() {
                             override fun onCreate(db: SupportSQLiteDatabase) {
                                 super.onCreate(db)
