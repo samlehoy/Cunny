@@ -81,10 +81,12 @@ class ApiConfig {
                 val cache = okhttp3.Cache(cacheDir, cacheSize)
                 okHttpBuilder.cache(cache)
 
-                // Force reading from cache if offline
+                // Force reading from cache if offline (non-authenticated resources only)
                 okHttpBuilder.addInterceptor(Interceptor { chain ->
                     var request = chain.request()
-                    if (request.method == "GET" && !isNetworkAvailable(context)) {
+                    val path = request.url.encodedPath
+                    val isCacheable = !path.contains("auth/") && !path.contains("me/")
+                    if (request.method == "GET" && isCacheable && !isNetworkAvailable(context)) {
                         request = request.newBuilder()
                             .header("Cache-Control", "public, only-if-cached, max-stale=604800") // 7 days stale cache
                             .build()
@@ -92,15 +94,20 @@ class ApiConfig {
                     chain.proceed(request)
                 })
 
-                // Rewrite response headers to force caching
+                // Rewrite response headers to force caching (non-authenticated resources only)
                 okHttpBuilder.addNetworkInterceptor(Interceptor { chain ->
-                    val response = chain.proceed(chain.request())
-                    if (chain.request().method == "GET") {
+                    val request = chain.request()
+                    val response = chain.proceed(request)
+                    val path = request.url.encodedPath
+                    val isCacheable = !path.contains("auth/") && !path.contains("me/")
+                    if (request.method == "GET" && isCacheable) {
                         response.newBuilder()
                             .header("Cache-Control", "public, max-age=86400") // 24 hours online cache
                             .build()
                     } else {
-                        response
+                        response.newBuilder()
+                            .header("Cache-Control", "no-store, no-cache, must-revalidate")
+                            .build()
                     }
                 })
             }
@@ -113,6 +120,17 @@ class ApiConfig {
                 .client(client)
                 .build()
                 .create(ApiService::class.java)
+        }
+
+        fun clearCache(context: Context) {
+            try {
+                val cacheDir = File(context.cacheDir, "http-cache")
+                if (cacheDir.exists()) {
+                    cacheDir.deleteRecursively()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 }

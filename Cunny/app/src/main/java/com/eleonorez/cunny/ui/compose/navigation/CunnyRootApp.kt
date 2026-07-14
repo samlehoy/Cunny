@@ -239,6 +239,7 @@ fun CunnyRootApp(
                                 kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
                                     try {
                                         gamificationDao.clearAllGamificationData()
+                                        com.eleonorez.cunny.data.retrofit.ApiConfig.clearCache(context)
                                     } catch (e: Exception) {
                                         e.printStackTrace()
                                     }
