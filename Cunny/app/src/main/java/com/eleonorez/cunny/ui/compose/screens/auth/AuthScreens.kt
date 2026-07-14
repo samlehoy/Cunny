@@ -140,7 +140,7 @@ fun LoginScreen(
                 )
             }
             Text(
-                text = "Welcome back",
+                text = "Selamat datang kembali",
                 fontFamily = SoraFontFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 26.sp,
@@ -150,7 +150,7 @@ fun LoginScreen(
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Sign in to continue learning",
+                text = "Masuk untuk melanjutkan belajar",
                 fontFamily = DmSansFontFamily,
                 fontSize = 14.sp,
                 color = CunnyColors.textSubtle,
@@ -170,12 +170,12 @@ fun LoginScreen(
             value = password,
             onValueChange = { password = it },
             isPassword = true,
-            placeholder = "Min. 8 characters"
+            placeholder = "Min. 8 karakter"
         )
         Spacer(Modifier.height(24.dp))
 
         CunnyPrimaryButton(
-            text = "Log In",
+            text = "Masuk",
             onClick = {
                 isEmailLoading = true
                 viewModel.loginWithEmail(email, password)
@@ -186,14 +186,14 @@ fun LoginScreen(
         OrDivider()
 
         CunnyGoogleButton(
-            text = "Sign in with Google",
+            text = "Masuk dengan Google",
             onClick = {
                 val activity = context.findActivity()
                 if (activity != null) {
                     isGoogleLoading = true
                     viewModel.signInWithGoogle(activity, isRegister = false)
                 } else {
-                    CunnyToast.show("Activity context not found", CunnyToastType.ERROR)
+                    CunnyToast.show("Konteks Activity tidak ditemukan", CunnyToastType.ERROR)
                 }
             },
             isLoading = isGoogleLoading
@@ -202,14 +202,14 @@ fun LoginScreen(
         Spacer(Modifier.height(20.dp))
 
         val signUpLink = buildAnnotatedString {
-            append("Don't have an account? ")
+            append("Belum punya akun? ")
             withStyle(
                 style = SpanStyle(
                     color = CunnyColors.primary,
                     fontWeight = FontWeight.Bold
                 )
             ) {
-                append("Sign Up")
+                append("Daftar")
             }
         }
 
@@ -287,7 +287,7 @@ fun RegisterScreen(
             CunnyBackButton(onClick = onNavigateLogin)
             Spacer(modifier = Modifier.width(16.dp))
             Text(
-                text = "Create Account",
+                text = "Buat Akun",
                 fontFamily = SoraFontFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
@@ -297,10 +297,10 @@ fun RegisterScreen(
 
         Column(modifier = Modifier.padding(horizontal = 28.dp, vertical = 8.dp)) {
             CunnyFormField(
-                label = "Name",
+                label = "Nama",
                 value = name,
                 onValueChange = { name = it },
-                placeholder = "Your name"
+                placeholder = "Nama kamu"
             )
             Spacer(Modifier.height(16.dp))
             CunnyFormField(
@@ -315,12 +315,12 @@ fun RegisterScreen(
                 value = password,
                 onValueChange = { password = it },
                 isPassword = true,
-                placeholder = "Min. 8 characters"
+                placeholder = "Min. 8 karakter"
             )
             Spacer(Modifier.height(24.dp))
 
             CunnyPrimaryButton(
-                text = "Sign Up",
+                text = "Daftar",
                 onClick = {
                     isEmailLoading = true
                     viewModel.registerWithEmail(name, email, password)
@@ -331,14 +331,14 @@ fun RegisterScreen(
             OrDivider()
 
             CunnyGoogleButton(
-                text = "Sign up with Google",
+                text = "Daftar dengan Google",
                 onClick = {
                     val activity = context.findActivity()
                     if (activity != null) {
                         isGoogleLoading = true
                         viewModel.signInWithGoogle(activity, isRegister = true)
                     } else {
-                        CunnyToast.show("Activity context not found", CunnyToastType.ERROR)
+                        CunnyToast.show("Konteks Activity tidak ditemukan", CunnyToastType.ERROR)
                     }
                 },
                 isLoading = isGoogleLoading
@@ -347,14 +347,14 @@ fun RegisterScreen(
             Spacer(Modifier.height(20.dp))
 
             val logInLink = buildAnnotatedString {
-                append("Already have an account? ")
+                append("Sudah punya akun? ")
                 withStyle(
                     style = SpanStyle(
                         color = CunnyColors.primary,
                         fontWeight = FontWeight.Bold
                     )
                 ) {
-                    append("Log In")
+                    append("Masuk")
                 }
             }
 

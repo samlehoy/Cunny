@@ -869,7 +869,7 @@ fun OrDivider(modifier: Modifier = Modifier) {
                 .background(CunnyColors.border)
         )
         Text(
-            text = "or",
+            text = "atau",
             fontFamily = DmSansFontFamily,
             fontWeight = FontWeight.Medium,
             fontSize = 14.sp,
